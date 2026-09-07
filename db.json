@@ -1,0 +1,19 @@
+[
+    {
+        "title": "Tabua Mare API Blog | TESTE",
+        "data": "2026-09-07T00:00:00Z",
+        "assets-path": "posts/2026-09-07-teste/assets",
+        "content-path": "posts/2026-09-07-teste/content.md",
+        "slug": "2026-09-07-teste",
+        "headline": "Como funciona uma tábua de maré?",
+        "image": "posts/2026-09-07-teste/assets/main.png",
+        "authors": [
+            {
+                "type": ["creator"],
+                "name": "André Luiz",
+                "email": "andreluiz.ddev@proton.me",
+                "created_at": "2026-09-07T00:00:00Z"
+            }
+        ]
+    }
+]
