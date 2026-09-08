@@ -23,9 +23,8 @@ pub fn (app &App) health(mut ctx Context) veb.Result {
 }
 
 fn main() {
-	// Keep asset and template paths stable for `v run .`.
 	os.chdir(os.dir(@FILE))!
 	mut app := &App{}
 	app.handle_static('assets', false)!
-	veb.run[App, Context](mut app, 8080)
+	veb.run[App, Context](mut app, 3330)
 }
