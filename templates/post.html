@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@{title}</title>
+    <meta name="description" content="@{description}" />
+    <link rel="canonical" href="@{canonical}" />
+    <link rel="icon" type="image/png" href="/assets/favicon-192x192.png" />
+<link href="/assets/main.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Kode+Mono:wght@400;600&amp;family=Spectral:wght@600;700&amp;display=swap" rel="stylesheet" />
+    <script type="application/ld+json">
+{
+  "@@context": "https://schema.org",
+  "@@type": "BlogPosting",
+  "headline": "@{post.headline}",
+  "description": "@{post.title}",
+  "image": "@{json_image}",
+  "datePublished": "@{post.data}",
+  "dateModified": "@{post.data}",
+  "mainEntityOfPage": "@{canonical}",
+  "author": ["@{json_author}"]
+}
+    </script>
+  </head>
+  <body>
+    <header class="site-nav-shell">
+      <input type="checkbox" id="mobileMenuToggle" class="menu-toggle-input" aria-label="Abrir menu de navegação" aria-controls="mobileMenu" />
+      <nav class="site-nav container" aria-label="Navegação principal">
+        <a href="/" class="site-nav__brand" aria-label="Tábua de Marés Blog — início">
+          <img src="/assets/favicon-192x192.png" alt="" width="40" height="40" />
+          <span>Tábua de Marés</span>
+          <small>Blog</small>
+        </a>
+
+        <label class="site-nav__toggle" for="mobileMenuToggle">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </label>
+
+        <div class="site-nav__links">
+          <a href="/">Início</a>
+          <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer">API <span aria-hidden="true">↗</span></a>
+          <a href="https://tabuamare.api.br/docs" target="_blank" rel="noreferrer">Docs <span aria-hidden="true">↗</span></a>
+          <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-menu-content container" aria-label="Navegação móvel">
+          <a href="/">Início</a>
+          <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer">API ↗</a>
+          <a href="https://tabuamare.api.br/docs" target="_blank" rel="noreferrer">Docs ↗</a>
+          <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <article class="post-hero container" aria-labelledby="post-title">
+        <p class="eyebrow"><span></span> @{eyebrow}</p>
+        <h1 id="post-title">@{post.headline}</h1>
+        <p class="post-hero__lead">@{lead}</p>
+        <div class="post-hero__meta">
+          <figure class="post-author">
+            <img src="/assets/favicon-192x192.png" alt="" width="40" height="40" />
+            <figcaption>
+              @for author in post.authors
+                  <strong>@{author.name}</strong>
+                  <span>@{date_pt}</span>
+              @end
+            </figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <figure class="post-cover container">
+        <img src="@{json_image}" alt="" width="1600" height="600" fetchpriority="high" />
+      </figure>
+
+      <section class="container post-body" aria-label="Conteúdo do artigo">
+        @{content}
+      </section>
+
+      <section class="final-cta">
+        <div class="container">
+          <p class="eyebrow">Continue navegando</p>
+          <h2>Volte para o início.</h2>
+          <div class="inline-actions"><a href="/" role="button" class="button-sun">Ver todos os artigos</a><a href="https://tabuamare.api.br" role="button" class="outline">Conhecer a API</a></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer site-footer--blog">
+      <div class="footer-wave" aria-hidden="true"></div>
+      <div class="site-footer__grid site-footer__grid--blog container">
+        <div class="site-footer__brand">
+          <a href="/" aria-label="Tábua de Marés Blog — início">
+            <img src="/assets/favicon-192x192.png" alt="" width="48" height="48" />
+            <span><strong>Tábua de Marés</strong><small>Blog</small></span>
+          </a>
+          <p>Maré, código e litoral brasileiro — histórias de quem constrói a Tábua de Maré API.</p>
+          <p class="site-footer__made">Feito com <a href="https://vlang.io" target="_blank" rel="noreferrer"><img src="/assets/v-logo.svg" alt="V" width="16" height="16" /></a> <img src="/assets/veasel.svg" alt="mascote do V" width="46" height="24" /> e dados abertos.</p>
+        </div>
+        <nav aria-label="Blog">
+          <strong>Blog</strong>
+          <a href="/">Início</a>
+          <a href="/#posts">Artigos recentes</a>
+          <a href="https://github.com/Ddiidev/tabua-mare-api-blog" target="_blank" rel="noreferrer">Contribuir com um post <span aria-hidden="true">↗</span></a>
+        </nav>
+        <nav aria-label="API">
+          <strong>API</strong>
+          <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer">Site da API</a>
+          <a href="https://tabuamare.api.br/docs" target="_blank" rel="noreferrer">Documentação</a>
+          <a href="https://tabuamare.api.br/playground" target="_blank" rel="noreferrer">Playground</a>
+          <a href="https://tabuamare.api.br/#planos" target="_blank" rel="noreferrer">Planos</a>
+        </nav>
+        <nav aria-label="Projeto">
+          <strong>Projeto</strong>
+          <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub da API <span aria-hidden="true">↗</span></a>
+          <a href="https://tabuamare.api.br/apoiar" target="_blank" rel="noreferrer">Apoiar</a>
+          <a href="https://tabuamare.api.br/privacidade" target="_blank" rel="noreferrer">Privacidade</a>
+          <a href="https://tabuamare.api.br/termos" target="_blank" rel="noreferrer">Termos de serviço</a>
+        </nav>
+      </div>
+      <div class="site-footer__base container">
+        <span>&copy; 2026 Tábua de Marés</span>
+        <span>Feita no Brasil <img src="/assets/flag-br.png" alt="" width="20" height="14" /></span>
+      </div>
+    </footer>
+  </body>
+</html>

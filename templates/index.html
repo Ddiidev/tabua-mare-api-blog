@@ -1,17 +1,196 @@
 <!doctype html>
-<html lang='en'>
-<head>
-	<meta charset='UTF-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-	<title>@title</title>
-	@css '/assets/main.css'
-</head>
-<body>
-	<main class='card'>
-		<p class='eyebrow'>veb starter</p>
-		<h1>@title</h1>
-		<p>@message</p>
-		<p class='hint'>Try <code>GET /health</code> for a plain-text response.</p>
-	</main>
-</body>
+<html lang="pt-BR" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title</title>
+    <link rel="icon" type="image/png" href="/assets/favicon-192x192.png" />
+<link href="/assets/main.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Kode+Mono:wght@400;600&amp;family=Spectral:wght@600;700&amp;display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="site-nav-shell">
+      <input type="checkbox" id="mobileMenuToggle" class="menu-toggle-input" aria-label="Abrir menu de navegação" aria-controls="mobileMenu" />
+      <nav class="site-nav container" aria-label="Navegação principal">
+        <a href="/" class="site-nav__brand" aria-label="Tábua de Marés Blog — início">
+          <img src="/assets/favicon-192x192.png" alt="" width="40" height="40" />
+          <span>Tábua de Marés</span>
+          <small>Blog</small>
+        </a>
+
+        <label class="site-nav__toggle" for="mobileMenuToggle">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </label>
+
+        <div class="site-nav__links">
+          <a href="/">Início</a>
+          <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer">API <span aria-hidden="true">↗</span></a>
+          <a href="https://tabuamare.api.br/docs" target="_blank" rel="noreferrer">Docs <span aria-hidden="true">↗</span></a>
+          <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-menu-content container" aria-label="Navegação móvel">
+          <a href="/">Início</a>
+          <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer">API ↗</a>
+          <a href="https://tabuamare.api.br/docs" target="_blank" rel="noreferrer">Docs ↗</a>
+          <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="home-hero container" aria-labelledby="home-title">
+        <div class="home-hero__copy">
+          <p class="eyebrow"><span></span> Tábua de Maré · blog</p>
+          <h1 id="home-title">Histórias de maré<br /> <em>e de código.</em></h1>
+          <p class="home-hero__lead">
+            Artigos sobre a tábua de maré brasileira, engenharia por trás da API, dados abertos e o litoral que inspira tudo isso. Direto de quem constrói o projeto.
+          </p>
+          <div class="home-hero__actions">
+            <a href="#posts" role="button" class="button-sun">Ler os artigos</a>
+            <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer" role="button" class="outline">Conhecer a API</a>
+          </div>
+          <ul class="home-hero__facts" aria-label="Resumo do blog">
+            <li><strong>Maré</strong><span>ciência</span></li>
+            <li><strong>API</strong><span>engenharia</span></li>
+            <li><strong>Brasil</strong><span>litoral</span></li>
+          </ul>
+          <p class="home-hero__legal"><a href="https://tabuamare.api.br/privacidade">Política de privacidade</a><span aria-hidden="true">·</span><a href="https://tabuamare.api.br/termos">Termos de serviço</a></p>
+        </div>
+
+        @if has_featured
+        <a class="post-card post-card--featured" href="@{featured.url}" aria-label="Ler o artigo em destaque: @{featured.headline}">
+          <div class="post-card__media">
+            <span class="post-card__badge">Em destaque</span>
+            <img src="@{featured.image}" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="post-card__body">
+            <span class="post-card__meta"><b>@{featured.date_pt}</b><span aria-hidden="true">·</span><span>@{featured.author}</span></span>
+            <h2 class="post-card__title">@{featured.headline}</h2>
+            <span class="post-card__footer"><span>Ler artigo</span><span class="post-card__arrow" aria-hidden="true">↗</span></span>
+          </div>
+        </a>
+        @else
+        <div class="post-card post-card--featured post-card--soon">
+          <div class="post-card__soon">
+            <svg viewBox="0 0 168 19" aria-hidden="true"><path fill="currentColor" d="M0 6C21 0 35 0 56 6s35 6 56 0 35-6 56 0v13H0Z"/></svg>
+            <strong>Primeiro artigo em breve</strong>
+            <span>O blog está sendo preparado. Volte em shortinho.</span>
+          </div>
+        </div>
+        @end
+      </section>
+
+      <div class="tide-track tide-track--divider" aria-hidden="true">
+        <span class="tide-wave tide-wave--back"></span>
+        <span class="tide-wave tide-wave--middle"></span>
+        <span class="tide-wave tide-wave--front"></span>
+        <span class="tide-boat"></span>
+      </div>
+
+      <section id="posts" class="section-space" aria-labelledby="posts-title">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Do litoral para o navegador</p>
+            <h2 id="posts-title">Artigos recentes.</h2>
+            <p>Maré, dados abertos e as decisões de engenharia que sustentam a API. Novos textos saem quando a maré permite.</p>
+          </div>
+          <div class="posts-grid">
+            @for card in cards
+            <a class="post-card" href="@{card.url}" aria-label="Ler o artigo: @{card.headline}">
+              <div class="post-card__media">
+                <img src="@{card.image}" alt="" loading="lazy" decoding="async" />
+              </div>
+              <div class="post-card__body">
+                <span class="post-card__meta"><b>@{card.date_pt}</b><span aria-hidden="true">·</span><span>@{card.author}</span></span>
+                <h3 class="post-card__title">@{card.headline}</h3>
+                <span class="post-card__footer"><span>Ler artigo</span><span class="post-card__arrow" aria-hidden="true">↗</span></span>
+              </div>
+            </a>
+            @end
+            @if cards.len == 0
+            <div class="post-card post-card--soon">
+              <div class="post-card__soon">
+                <svg viewBox="0 0 168 19" aria-hidden="true"><path fill="currentColor" d="M0 6C21 0 35 0 56 6s35 6 56 0 35-6 56 0v13H0Z"/></svg>
+                <strong>Em breve</strong>
+                <span>Mais artigos sobre maré e engenharia estão sendo escritos.</span>
+              </div>
+            </div>
+            <div class="post-card post-card--soon">
+              <div class="post-card__soon">
+                <svg viewBox="0 0 168 19" aria-hidden="true"><path fill="currentColor" d="M0 6C21 0 35 0 56 6s35 6 56 0 35-6 56 0v13H0Z"/></svg>
+                <strong>Em breve</strong>
+                <span>Quer escrever? Contribua com um post no GitHub.</span>
+              </div>
+            </div>
+            @end
+          </div>
+        </div>
+      </section>
+
+      <section id="open-source" class="open-source-section container section-space" aria-labelledby="oss-title">
+        <div class="open-source-section__mark" aria-hidden="true">&lt;/&gt;</div>
+        <div>
+          <p class="eyebrow">Código aberto, escrita aberta</p>
+          <h2 id="oss-title">O blog acompanha a API.</h2>
+          <p>Textos sobre o desenvolvimento da Tábua de Maré API, decisões técnicas e a operação de um serviço brasileiro de dados de maré.</p>
+          <div class="inline-actions">
+            <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer" role="button">Acessar o site da API <span aria-hidden="true">↗</span></a>
+            <a href="https://tabuamare.api.br/apoiar">Apoiar o projeto</a>
+            <a href="https://github.com/Ddiidev/tabua-mare-api-blog" target="_blank" rel="noreferrer">Contribuir com um post <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta">
+        <div class="container">
+          <p class="eyebrow">A maré não espera</p>
+          <h2>Consulte a API enquanto lê.</h2>
+          <div class="inline-actions"><a href="https://tabuamare.api.br" role="button" class="button-sun">Testar sem cadastro</a><a href="https://tabuamare.api.br/docs" role="button" class="outline">Ver endpoints</a></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="footer-wave" aria-hidden="true"></div>
+    <footer class="site-footer site-footer--blog">
+      <div class="site-footer__grid container">
+        <div class="site-footer__brand">
+          <a href="/" aria-label="Tábua de Marés Blog — início">
+            <img src="/assets/favicon-192x192.png" alt="" width="48" height="48" />
+            <span><strong>Tábua de Marés</strong><small>Blog</small></span>
+          </a>
+          <p class="footer-tagline">Maré, código e litoral brasileiro — histórias de quem constrói a Tábua de Maré API.</p>
+          <p class="footer-made">Feito com <a href="https://vlang.io" target="_blank" rel="noreferrer"><img src="/assets/v-logo.svg" alt="V" width="16" height="16" /></a> <img src="/assets/veasel.svg" alt="mascote do V" width="46" height="24" /> e dados abertos.</p>
+        </div>
+        <nav aria-label="Blog">
+          <strong>Blog</strong>
+          <a href="/">Início</a>
+          <a href="/#posts">Artigos recentes</a>
+          <a href="https://github.com/Ddiidev/tabua-mare-api-blog" target="_blank" rel="noreferrer">Contribuir com um post ↗</a>
+        </nav>
+        <nav aria-label="API">
+          <strong>API</strong>
+          <a href="https://tabuamare.api.br">Site da API</a>
+          <a href="https://tabuamare.api.br/docs">Documentação</a>
+          <a href="https://tabuamare.api.br/playground">Playground</a>
+          <a href="https://tabuamare.api.br/#planos">Planos</a>
+        </nav>
+        <nav aria-label="Projeto">
+          <strong>Projeto</strong>
+          <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub da API ↗</a>
+          <a href="https://tabuamare.api.br/apoiar">Apoiar</a>
+          <a href="https://tabuamare.api.br/privacidade">Privacidade</a>
+          <a href="https://tabuamare.api.br/termos">Termos de serviço</a>
+        </nav>
+      </div>
+      <div class="site-footer__base container">
+        <span>&copy; 2026 Tábua de Marés</span>
+        <span>Feita no Brasil <img src="/assets/flag-br.png" alt="" width="20" height="14" /></span>
+      </div>
+    </footer>
+  </body>
 </html>

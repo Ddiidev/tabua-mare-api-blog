@@ -1,0 +1,166 @@
+<!doctype html>
+<!--
+  ============================================================
+  TEMPLATE DE SESSÃO - Blog da Tábua de Maré
+  ============================================================
+  Copie este arquivo para criar qualquer página nova do blog.
+  Ele contém TODO o padrão visual da Tabua Mare API:
+
+  IMPORTAR SEMPRE (por página, nesta ordem):
+    1. <link rel="stylesheet" href="/assets/main.css">   (ou @css '/assets/main.css' no veb)
+    2. Fontes Google: IBM Plex Sans / Kode Mono / Spectral (link abaixo)
+    3. Favicon:        /assets/favicon-192x192.png
+    4. Assets:          /assets/flag-br.png (footer), imagens em /assets/
+
+  COMPONENTES PRONTOS (classes já no main.css):
+    - Navbar fixa:        <header class="site-nav-shell"> + .site-nav + .site-nav__brand
+    - Menu mobile:        input.menu-toggle-input + label.site-nav__toggle + .mobile-menu (sem JS)
+    - Botão primário:     [role="button"] ou <button> (cyan; hover mais escuro)
+    - Botão sol:          class "button-sun" (amarelo --sun-400; hover --sun-500)
+    - Botão outline:      class "outline" (borda cyan transparente; hover cyan + fundo 8%)
+    - Dropdown:           <details class="endpoint-picker"> + <summary> + .endpoint-picker__menu
+                          (seta ⌄ gira ao abrir; opções com .is-selected; hover #8be9f5)
+    - Console:             .tide-console + .tide-track (ondas CSS) + .tide-boat
+    - Eyebrow:            <p class="eyebrow"><span></span> texto</p>
+    - Grid de cards:      .users-grid + .user-card (hover: fundo --surface-muted)
+    - Seções:             .section-space (espaçamento vertical clamp)
+    - Footer:             .site-footer + .site-footer__grid + .site-footer__base ("Feita no Brasil")
+
+  DESIGN TOKENS (definidos em :root no main.css):
+    - Cores:  --ocean-950 #082f49 | --ocean-800 #0c4a6e | --ocean-600 #0891b2
+              --sun-400 #f9c74f | --sun-500 #f2b934 | --foam-50 #f7faf9
+              --surface #fff | --surface-muted #eef6f6 | --line #cfe3e8
+              --text #102a37 | --muted #58717c | --shadow-float
+    - Tipografia:
+              Corpo:   IBM Plex Sans (system-ui fallback)
+              Títulos: Spectral (serif; .home-hero h1, .section-heading h2, .site-nav__brand span)
+              Mono:    Kode Mono (.endpoint-picker__route b, .tide-console__header/footer, eyebrow não)
+    - Espaçamento: --spacing-xs .25rem | --spacing-sm .5rem | --spacing-md 1rem | --spacing-xl 2rem | --spacing-2xl 3rem
+    - Container: .container (max 1200px/1440px conforme seção)
+    - Breakpoints: 576/768/900/1024/1280/1536px (html font-size fluido 100%→131.25%)
+    - Tema: <html data-theme="light"> + prefers-color-scheme dark automático
+    - Acessibilidade: focus-visible com outline --sun-400; @media prefers-reduced-motion
+
+  REGRAS DO PROJETO (do usuário):
+    - ZERO JavaScript no blog. Interações só com HTML/CSS nativo
+      (details/summary, checkbox hack, :hover, :focus-visible).
+    - ZERO NPM/node_modules. CSS é pré-compilado: Tailwind roda FORA do
+      repo (pipeline do tabua-mare-api, scripts/build-css.mjs) e o resultado
+      estático é copiado para assets/main.css.
+    - Templates veb usam @title e @css '/assets/main.css' (ver templates/index.html).
+  ============================================================
+-->
+<html lang="pt-BR" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Em template veb: <title>@title</title> e @css '/assets/main.css' -->
+    <title>Título da página | Blog da Tábua de Maré</title>
+    <link rel="icon" type="image/png" href="/assets/favicon-192x192.png" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Kode+Mono:wght@400;600&amp;family=Spectral:wght@600;700&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/main.css" />
+  </head>
+  <body>
+    <header class="site-nav-shell">
+      <input type="checkbox" id="mobileMenuToggle" class="menu-toggle-input" aria-label="Abrir menu de navegação" aria-controls="mobileMenu" />
+      <nav class="site-nav container" aria-label="Navegação principal">
+        <a href="/" class="site-nav__brand" aria-label="Tábua de Marés Blog — início">
+          <img src="/assets/favicon-192x192.png" alt="" width="40" height="40" />
+          <span>Tábua de Marés</span>
+          <small>Blog</small>
+        </a>
+
+        <label class="site-nav__toggle" for="mobileMenuToggle">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </label>
+
+        <div class="site-nav__links">
+          <a href="/">Início</a>
+          <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer">API <span aria-hidden="true">↗</span></a>
+          <a href="https://tabuamare.api.br/docs" target="_blank" rel="noreferrer">Docs <span aria-hidden="true">↗</span></a>
+          <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-menu-content container" aria-label="Navegação móvel">
+          <a href="/">Início</a>
+          <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer">API ↗</a>
+          <a href="https://tabuamare.api.br/docs" target="_blank" rel="noreferrer">Docs ↗</a>
+          <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <!-- CONTEÚDO DA PÁGINA: substituir a partir daqui -->
+
+      <section class="container section-space" aria-labelledby="page-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span></span> Seção</p>
+          <h2 id="page-title">Título da página.</h2>
+          <p>Parágrafo de apoio no tom do blog: direto, sem enrolação, cor --muted.</p>
+        </div>
+      </section>
+
+      <!-- Exemplo de dropdown (details/summary, sem JS) -->
+      <section class="container" aria-label="Exemplo de dropdown">
+        <details class="endpoint-picker" style="max-width: 32rem;">
+          <summary>
+            <span class="endpoint-picker__title">Título do dropdown</span>
+            <span class="endpoint-picker__route"><b>GET</b><code>/exemplo</code></span>
+          </summary>
+          <div class="endpoint-picker__menu" role="listbox" aria-label="Opções">
+            <a class="endpoint-picker__option" href="#" role="option">
+              <strong>Opção selecionada</strong>
+              <span class="endpoint-picker__route"><b>GET</b><code>/opcao-1</code></span>
+            </a>
+            <a class="endpoint-picker__option is-selected" href="#" role="option" aria-selected="true">
+              <strong>Opção marcada</strong>
+              <span class="endpoint-picker__route"><b>GET</b><code>/opcao-2</code></span>
+            </a>
+          </div>
+        </details>
+      </section>
+
+      <!-- Exemplo de botões: primário (cyan), sol (amarelo), outline -->
+      <section class="container inline-actions" aria-label="Exemplo de botões" style="margin-top: 2rem;">
+        <a href="#" role="button">Botão primário</a>
+        <a href="#" role="button" class="button-sun">Botão sol</a>
+        <a href="#" role="button" class="outline">Botão outline</a>
+      </section>
+
+      <!-- FIM DO CONTEÚDO: daqui para baixo é padrão fixo -->
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__grid container">
+        <div class="site-footer__brand">
+          <a href="/" aria-label="Tábua de Marés Blog — início">
+            <img src="/assets/favicon-192x192.png" alt="" width="48" height="48" />
+            <span><strong>Tábua de Marés</strong><small>Blog da API brasileira de maré.</small></span>
+          </a>
+        </div>
+        <nav aria-label="API">
+          <strong>API</strong>
+          <a href="https://tabuamare.api.br/docs">Documentação</a>
+          <a href="https://tabuamare.api.br/playground">Playground</a>
+          <a href="https://tabuamare.api.br/#planos">Planos</a>
+        </nav>
+        <nav aria-label="Projeto">
+          <strong>Projeto</strong>
+          <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a href="https://tabuamare.api.br/apoiar">Apoiar</a>
+          <a href="https://tabuamare.api.br/privacidade">Privacidade</a>
+          <a href="https://tabuamare.api.br/termos">Termos de serviço</a>
+        </nav>
+      </div>
+      <div class="site-footer__base container">
+        <span>&copy; 2026 Tábua de Marés</span>
+        <span>Feita no Brasil <img src="/assets/flag-br.png" alt="" width="20" height="14" /></span>
+      </div>
+    </footer>
+  </body>
+</html>
