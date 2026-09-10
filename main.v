@@ -38,6 +38,20 @@ fn post_card(post entities.Post) PostCard {
 	}
 }
 
+fn suggested_post_cards(posts []entities.Post, current_slug string) []PostCard {
+	mut cards := []PostCard{}
+	for post in posts {
+		if post.slug == current_slug {
+			continue
+		}
+		cards << post_card(post)
+		if cards.len == 3 {
+			break
+		}
+	}
+	return cards
+}
+
 fn format_date(iso string) string {
 	if iso.len < 10 {
 		return iso
@@ -84,7 +98,7 @@ pub fn (app &App) index() veb.Result {
 		PostCard{}
 	}
 	mut cards := []PostCard{}
-	for i := 1; i < registers_posts.len; i++ {
+	for i := 0; i < registers_posts.len; i++ {
 		cards << post_card(registers_posts[i])
 	}
 
@@ -96,17 +110,17 @@ pub fn (app &App) post(mut ctx Context, slug string) veb.Result {
 	mut registers_posts := []entities.Post{}
 
 	lock app.content_json {
-		if app.content_json.content.len == 0 || app.content_json.expire > time.utc() {
+		if app.content_json.content.len == 0 || app.content_json.expire < time.utc() {
 			app.content_json = infra.get_db_json() or {
 				return ctx.server_error_with_status(.internal_server_error)
 			}
-			content_json := app.content_json
-
-			registers_posts = infra.addapt(content_json) or { [] }.filter(it.slug == slug)
 		}
+		content_json := app.content_json
+		registers_posts = infra.addapt(content_json) or { [] }
 	}
 
-	post := registers_posts[0] or { return ctx.not_found() }
+	post := registers_posts.filter(it.slug == slug)[0] or { return ctx.not_found() }
+	suggested_posts := suggested_post_cards(registers_posts, slug)
 
 	content_post := infra.get_post(post) or { return ctx.server_error_with_status(.internal_server_error) }
 	content := veb.RawHtml(vmarkdown.render_html(content_post) or { '' })

@@ -6,9 +6,14 @@ tabua_mare_api_blog
 *.so
 *.dylib
 *.dll
+*.obj
+*.exp
+*.lib
 
 # Ignore binary output folders
 bin/
+workground/
+TASK/
 
 # Ignore common editor/system specific metadata
 .DS_Store

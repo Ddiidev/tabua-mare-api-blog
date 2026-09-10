@@ -43,23 +43,13 @@
     </header>
 
     <main id="main-content">
-      <section class="home-hero container" aria-labelledby="home-title">
+      <section class="home-hero home-hero--editorial container" aria-labelledby="home-title">
         <div class="home-hero__copy">
           <p class="eyebrow"><span></span> Tábua de Maré · blog</p>
           <h1 id="home-title">Histórias de maré<br /> <em>e de código.</em></h1>
           <p class="home-hero__lead">
-            Artigos sobre a tábua de maré brasileira, engenharia por trás da API, dados abertos e o litoral que inspira tudo isso. Direto de quem constrói o projeto.
+            Explorações sobre a dinâmica dos portos brasileiros, dados marítimos abertos e os bastidores de engenharia da Tábua de Maré API. Direto de quem constrói o serviço.
           </p>
-          <div class="home-hero__actions">
-            <a href="#posts" role="button" class="button-sun">Ler os artigos</a>
-            <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer" role="button" class="outline">Conhecer a API</a>
-          </div>
-          <ul class="home-hero__facts" aria-label="Resumo do blog">
-            <li><strong>Maré</strong><span>ciência</span></li>
-            <li><strong>API</strong><span>engenharia</span></li>
-            <li><strong>Brasil</strong><span>litoral</span></li>
-          </ul>
-          <p class="home-hero__legal"><a href="https://tabuamare.api.br/privacidade">Política de privacidade</a><span aria-hidden="true">·</span><a href="https://tabuamare.api.br/termos">Termos de serviço</a></p>
         </div>
 
         @if has_featured
@@ -74,14 +64,6 @@
             <span class="post-card__footer"><span>Ler artigo</span><span class="post-card__arrow" aria-hidden="true">↗</span></span>
           </div>
         </a>
-        @else
-        <div class="post-card post-card--featured post-card--soon">
-          <div class="post-card__soon">
-            <svg viewBox="0 0 168 19" aria-hidden="true"><path fill="currentColor" d="M0 6C21 0 35 0 56 6s35 6 56 0 35-6 56 0v13H0Z"/></svg>
-            <strong>Primeiro artigo em breve</strong>
-            <span>O blog está sendo preparado. Volte em shortinho.</span>
-          </div>
-        </div>
         @end
       </section>
 
@@ -95,10 +77,10 @@
       <section id="posts" class="section-space" aria-labelledby="posts-title">
         <div class="container">
           <div class="section-heading">
-            <p class="eyebrow">Do litoral para o navegador</p>
             <h2 id="posts-title">Artigos recentes.</h2>
-            <p>Maré, dados abertos e as decisões de engenharia que sustentam a API. Novos textos saem quando a maré permite.</p>
+            <p>Portos, marés e as decisões de engenharia que sustentam o serviço de dados marítimos do Brasil.</p>
           </div>
+          @if cards.len > 0
           <div class="posts-grid">
             @for card in cards
             <a class="post-card" href="@{card.url}" aria-label="Ler o artigo: @{card.headline}">
@@ -112,23 +94,10 @@
               </div>
             </a>
             @end
-            @if cards.len == 0
-            <div class="post-card post-card--soon">
-              <div class="post-card__soon">
-                <svg viewBox="0 0 168 19" aria-hidden="true"><path fill="currentColor" d="M0 6C21 0 35 0 56 6s35 6 56 0 35-6 56 0v13H0Z"/></svg>
-                <strong>Em breve</strong>
-                <span>Mais artigos sobre maré e engenharia estão sendo escritos.</span>
-              </div>
-            </div>
-            <div class="post-card post-card--soon">
-              <div class="post-card__soon">
-                <svg viewBox="0 0 168 19" aria-hidden="true"><path fill="currentColor" d="M0 6C21 0 35 0 56 6s35 6 56 0 35-6 56 0v13H0Z"/></svg>
-                <strong>Em breve</strong>
-                <span>Quer escrever? Contribua com um post no GitHub.</span>
-              </div>
-            </div>
-            @end
           </div>
+          @else
+          <p class="posts-empty">Nenhum artigo publicado ainda.</p>
+          @end
         </div>
       </section>
 
