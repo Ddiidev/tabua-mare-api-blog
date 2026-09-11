@@ -134,6 +134,16 @@
     }
   }
 
+  const syncCodeScrollFade = () => {
+    document.querySelectorAll('.post-body pre').forEach((codeBlock) => {
+      const overflowsHorizontally = codeBlock.scrollWidth > codeBlock.clientWidth + 1;
+      codeBlock.classList.toggle('scroll-fade-x', overflowsHorizontally);
+    });
+  };
+
+  syncCodeScrollFade();
+  window.addEventListener('resize', syncCodeScrollFade, { passive: true });
+
   const boat = document.querySelector('.tide-track--divider .tide-boat');
   if (boat) {
     const track = boat.closest('.tide-track--divider');

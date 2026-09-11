@@ -159,6 +159,28 @@ main .post-share a.post-share__button--bluesky{color:#087ceb}
   [data-scroll-fade]{opacity:1!important;transform:none!important;transition:none!important}
 }
 
+/* Scroll-fade nas duas bordas de blocos de código que realmente transbordam. */
+@property --code-scroll-fade-start{syntax:"<length>";inherits:false;initial-value:0px}
+@property --code-scroll-fade-end{syntax:"<length>";inherits:false;initial-value:0px}
+@keyframes code-scroll-fade-start{from{--code-scroll-fade-start:0px}to{--code-scroll-fade-start:2rem}}
+@keyframes code-scroll-fade-end{from{--code-scroll-fade-end:2rem}to{--code-scroll-fade-end:0px}}
+.post-body pre.scroll-fade-x{
+  --code-scroll-fade-size:min(12%,2rem);
+  --code-scroll-fade-end:var(--code-scroll-fade-size);
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 var(--code-scroll-fade-start),#000 calc(100% - var(--code-scroll-fade-end)),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 var(--code-scroll-fade-start),#000 calc(100% - var(--code-scroll-fade-end)),transparent 100%);
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+}
+@supports (animation-timeline:scroll()){
+  .post-body pre.scroll-fade-x{
+    animation:code-scroll-fade-start 1ms ease-in-out,code-scroll-fade-end 1ms ease-in-out;
+    animation-timeline:scroll(self inline),scroll(self inline);
+    animation-range:0 5rem,calc(100% - 5rem) 100%;
+    animation-fill-mode:both;
+  }
+}
+
 /* Ritmo de leitura e alinhamento para a coluna estreita observada no preview móvel. */
 @media (width<=640px){
   html{scroll-padding-top:5rem}
