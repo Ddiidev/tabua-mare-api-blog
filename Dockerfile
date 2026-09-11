@@ -70,9 +70,11 @@ WORKDIR /app
 
 COPY --from=builder /src/TabuaMareBlog /app/TabuaMareBlog
 COPY --from=builder /src/assets /app/assets
+COPY --from=builder /src/posts /app/posts
+COPY --from=builder /src/db.json /app/db.json
 
 RUN chmod 0755 /app/TabuaMareBlog \
-    && chmod -R a=rX /app/assets
+    && chmod -R a=rX /app/assets /app/posts /app/db.json
 
 ENV BLOG_BASE_PATH=/blog \
     PORT=8080 \
