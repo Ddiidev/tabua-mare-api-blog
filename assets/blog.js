@@ -150,9 +150,11 @@
     const vignetteThreshold = 24;
 
     const syncContentVignette = () => {
-      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-      contentVignette.classList.toggle('is-top-hidden', window.scrollY <= vignetteThreshold);
-      contentVignette.classList.toggle('is-bottom-hidden', maxScroll === 0 || window.scrollY >= maxScroll - 1);
+      const scrollElement = document.scrollingElement || document.documentElement;
+      const scrollTop = scrollElement.scrollTop;
+      const maxScroll = Math.max(0, scrollElement.scrollHeight - window.innerHeight);
+      contentVignette.classList.toggle('is-top-hidden', scrollTop <= vignetteThreshold);
+      contentVignette.classList.toggle('is-bottom-hidden', maxScroll === 0 || scrollTop >= maxScroll - 1);
       vignetteFrame = undefined;
     };
 
@@ -162,6 +164,7 @@
 
     syncContentVignette();
     window.addEventListener('scroll', scheduleContentVignette, { passive: true });
+    document.addEventListener('scroll', scheduleContentVignette, { passive: true, capture: true });
     window.addEventListener('resize', scheduleContentVignette, { passive: true });
   }
 
