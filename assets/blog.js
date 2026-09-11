@@ -102,6 +102,38 @@
     if (language) highlight(code, language);
   });
 
+  const scrollFadeElements = [...document.querySelectorAll('[data-scroll-fade]')];
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const revealScrollFade = (element) => {
+    element.classList.remove('is-scroll-pending');
+    element.classList.add('is-scroll-revealed');
+  };
+
+  if (scrollFadeElements.length > 0) {
+    if (reducedMotion.matches || !('IntersectionObserver' in window)) {
+      scrollFadeElements.forEach(revealScrollFade);
+    } else {
+      const scrollFadeObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          revealScrollFade(entry.target);
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+
+      scrollFadeElements.forEach((element) => {
+        const isAlreadyVisible = element.getBoundingClientRect().top < window.innerHeight * 0.9;
+        if (isAlreadyVisible) {
+          revealScrollFade(element);
+          return;
+        }
+        element.classList.add('is-scroll-pending');
+        scrollFadeObserver.observe(element);
+      });
+    }
+  }
+
   const boat = document.querySelector('.tide-track--divider .tide-boat');
   if (boat) {
     const track = boat.closest('.tide-track--divider');

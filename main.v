@@ -98,7 +98,7 @@ fn month_pt(month string) string {
 
 @['/']
 pub fn (app &App) index() veb.Result {
-	title := 'Tábua de maré API BLOG'
+	title := 'Blog Tábua de Maré API'
 	base_path := app.base_path
 
 	mut registers_posts := []entities.Post{}

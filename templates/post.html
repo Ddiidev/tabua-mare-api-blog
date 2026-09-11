@@ -95,15 +95,15 @@
         </div>
       </article>
 
-      <figure class="post-cover container">
+      <figure class="post-cover container" data-scroll-fade>
         <img src="@{main_image}" alt="" width="1600" height="600" fetchpriority="high" />
       </figure>
 
-      <section class="container post-body" aria-label="Conteúdo do artigo">
+      <section class="container post-body" aria-label="Conteúdo do artigo" data-scroll-fade>
         @{content}
       </section>
 
-      <aside class="post-contribute container" aria-label="Contribuir com este artigo">
+      <aside class="post-contribute container" aria-label="Contribuir com este artigo" data-scroll-fade>
         <div>
           <strong>Encontrou algo para melhorar?</strong>
           <span>Edite este texto no GitHub e proponha a alteração.</span>
@@ -112,7 +112,7 @@
       </aside>
 
       @if suggested_posts.len > 0
-      <section class="suggested-posts container section-space" aria-labelledby="suggested-posts-title">
+      <section class="suggested-posts container section-space" aria-labelledby="suggested-posts-title" data-scroll-fade>
         <div class="section-heading">
           <h2 id="suggested-posts-title">Continue a leitura</h2>
         </div>
@@ -134,7 +134,7 @@
       @end
     </main>
 
-    <footer class="site-footer site-footer--blog">
+    <footer class="site-footer site-footer--blog" data-scroll-fade>
       <div class="site-footer__grid site-footer__grid--blog container">
         <div class="site-footer__brand">
           <a href="@{base_path}/" aria-label="Tábua de Marés Blog — início">
