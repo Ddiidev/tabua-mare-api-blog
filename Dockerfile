@@ -13,10 +13,14 @@ RUN apk add --no-cache \
     pax-utils \
     pkgconf
 
-RUN git clone https://github.com/vlang/v.git /opt/v \
-    && git -C /opt/v checkout --detach "${V_COMMIT}" \
-    && git clone https://github.com/vlang/vc.git /opt/v/vc \
-    && git -C /opt/v/vc checkout --detach "${VC_COMMIT}" \
+RUN git init /opt/v \
+    && git -C /opt/v remote add origin https://github.com/vlang/v.git \
+    && git -C /opt/v fetch --depth=1 origin "${V_COMMIT}" \
+    && git -C /opt/v checkout --detach FETCH_HEAD \
+    && git init /opt/v/vc \
+    && git -C /opt/v/vc remote add origin https://github.com/vlang/vc.git \
+    && git -C /opt/v/vc fetch --depth=1 origin "${VC_COMMIT}" \
+    && git -C /opt/v/vc checkout --detach FETCH_HEAD \
     && make -C /opt/v fresh_tcc \
     && make -C /opt/v local=1 \
     && test "$(git -C /opt/v rev-parse HEAD)" = "${V_COMMIT}" \
@@ -24,8 +28,10 @@ RUN git clone https://github.com/vlang/v.git /opt/v \
     && /opt/v/v version | grep -F 'V 0.5.2'
 
 RUN mkdir -p /root/.vmodules/guweigang \
-    && git clone https://github.com/guweigang/vmarkdown.git /root/.vmodules/guweigang/vmarkdown \
-    && git -C /root/.vmodules/guweigang/vmarkdown checkout --detach "${VMARKDOWN_COMMIT}" \
+    && git init /root/.vmodules/guweigang/vmarkdown \
+    && git -C /root/.vmodules/guweigang/vmarkdown remote add origin https://github.com/guweigang/vmarkdown.git \
+    && git -C /root/.vmodules/guweigang/vmarkdown fetch --depth=1 origin "${VMARKDOWN_COMMIT}" \
+    && git -C /root/.vmodules/guweigang/vmarkdown checkout --detach FETCH_HEAD \
     && test "$(git -C /root/.vmodules/guweigang/vmarkdown rev-parse HEAD)" = "${VMARKDOWN_COMMIT}"
 
 WORKDIR /src
