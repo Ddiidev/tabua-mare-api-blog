@@ -9,17 +9,18 @@
     <link rel="icon" type="image/png" href="/assets/favicon-192x192.png" />
 <link href="/assets/main.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Kode+Mono:wght@400;600&amp;family=Spectral:wght@600;700&amp;display=swap" rel="stylesheet" />
+    <script src="/assets/blog.js" defer></script>
     <script type="application/ld+json">
 {
   "@@context": "https://schema.org",
   "@@type": "BlogPosting",
   "headline": "@{post.headline}",
   "description": "@{post.title}",
-  "image": "@{json_image}",
+  "image": "@main_image",
   "datePublished": "@{post.data}",
   "dateModified": "@{post.data}",
   "mainEntityOfPage": "@{canonical}",
-  "author": ["@{json_author}"]
+  "author": ["@name_author"]
 }
     </script>
   </head>
@@ -73,16 +74,42 @@
               @end
             </figcaption>
           </figure>
+          <nav class="post-share" aria-label="Compartilhar artigo">
+            <a class="post-share__button post-share__button--whatsapp" href="https://wa.me/" target="_blank" rel="noreferrer" data-share-service="whatsapp" aria-label="Compartilhar no WhatsApp" title="WhatsApp">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.7 7.8c.3-.7.7-.7 1-.7h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5-.1.7l-.6.7c-.2.2-.1.4 0 .6.6 1.1 1.5 2 2.7 2.6.2.1.4.2.6 0l.8-1c.2-.2.4-.3.7-.2l1.9.9c.3.1.4.3.4.5 0 .3-.1 1.6-1.1 2.2-.6.4-1.4.6-2.3.3-1-.3-2.3-.8-3.8-2.1-1.2-1.1-2.1-2.4-2.5-3.5-.4-1-.1-2.4.5-3.3Z"/></svg>
+            </a>
+            <a class="post-share__button post-share__button--telegram" href="https://t.me/share/url" target="_blank" rel="noreferrer" data-share-service="telegram" aria-label="Compartilhar no Telegram" title="Telegram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.6 11.4 15.8-6.1c.7-.3 1.4.2 1.1 1.5l-2.7 12.6c-.2.9-.8 1.1-1.6.7l-4.1-3-2 1.9c-.2.2-.4.4-.8.4l.3-4.2 7.7-7c.3-.3-.1-.5-.5-.2l-9.5 6-4.1-1.3c-.9-.3-.9-.9.4-1.3Z"/></svg>
+            </a>
+            <button class="post-share__button post-share__button--instagram" type="button" data-share-service="instagram" aria-label="Compartilhar no Instagram" title="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.5" cy="6.7" r="1"/></svg>
+            </button>
+            <a class="post-share__button post-share__button--x" href="https://x.com/intent/post" target="_blank" rel="noreferrer" data-share-service="x" aria-label="Compartilhar no X" title="X">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4 19 20M19 4 5 20"/></svg>
+            </a>
+            <a class="post-share__button post-share__button--bluesky" href="https://bsky.app/intent/compose" target="_blank" rel="noreferrer" data-share-service="bluesky" aria-label="Compartilhar no Bluesky" title="Bluesky">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 11.1c-1.1-2.1-4.1-6-6.9-7.9C2.4 1.4 1.4 1.7.8 2c-.7.4-.8 1.7-.8 2.4 0 .7.4 5.7.7 6.5.9 3 4 4 6.8 3.5-4.8.7-6.1 3-3.4 5.3 5.1 4.2 7.2-.9 7.9-3 .7 2.1 2.3 7 7.8 3 2.5-1.9.7-4.2-3.3-5.3 2.8.5 5.9-.5 6.8-3.5.3-.8.7-5.8.7-6.5 0-.7-.1-2-.8-2.4-.6-.3-1.6-.6-4.3 1.2-2.8 1.9-5.8 5.8-6.9 7.9Z"/></svg>
+            </a>
+            <span id="share-status" class="post-share__status" aria-live="polite"></span>
+          </nav>
         </div>
       </article>
 
       <figure class="post-cover container">
-        <img src="@{json_image}" alt="" width="1600" height="600" fetchpriority="high" />
+        <img src="@{main_image}" alt="" width="1600" height="600" fetchpriority="high" />
       </figure>
 
       <section class="container post-body" aria-label="Conteúdo do artigo">
         @{content}
       </section>
+
+      <aside class="post-contribute container" aria-label="Contribuir com este artigo">
+        <div>
+          <strong>Encontrou algo para melhorar?</strong>
+          <span>Edite este texto no GitHub e proponha a alteração.</span>
+        </div>
+        <a href="https://github.com/Ddiidev/tabua-mare-api-blog/edit/main/posts/@{slug}/content.md" target="_blank" rel="noreferrer" role="button" class="outline">Editar este artigo <span aria-hidden="true">↗</span></a>
+      </aside>
 
       @if suggested_posts.len > 0
       <section class="suggested-posts container section-space" aria-labelledby="suggested-posts-title">
@@ -108,12 +135,11 @@
     </main>
 
     <footer class="site-footer site-footer--blog">
-      <div class="footer-wave" aria-hidden="true"></div>
       <div class="site-footer__grid site-footer__grid--blog container">
         <div class="site-footer__brand">
           <a href="/" aria-label="Tábua de Marés Blog — início">
-            <img src="/assets/favicon-192x192.png" alt="" width="48" height="48" />
-            <span><strong>Tábua de Marés</strong><small>Blog</small></span>
+            <img src="/assets/favicon-192x192.png" alt="" width="56" height="56" />
+            <span><strong>Tábua de Marés</strong><small class="brand-badge">Blog</small></span>
           </a>
           <p>Maré, código e litoral brasileiro — histórias de quem constrói a Tábua de Maré API.</p>
           <p class="site-footer__made">Feito com <a href="https://vlang.io" target="_blank" rel="noreferrer"><img src="/assets/v-logo.svg" alt="V" width="16" height="16" /></a> <img src="/assets/veasel.svg" alt="mascote do V" width="46" height="24" /> e dados abertos.</p>
@@ -124,23 +150,20 @@
           <a href="/#posts">Artigos recentes</a>
           <a href="https://github.com/Ddiidev/tabua-mare-api-blog" target="_blank" rel="noreferrer">Contribuir com um post <span aria-hidden="true">↗</span></a>
         </nav>
-        <nav aria-label="API">
-          <strong>API</strong>
+        <nav aria-label="API e projeto">
+          <strong>API e projeto</strong>
           <a href="https://tabuamare.api.br" target="_blank" rel="noreferrer">Site da API</a>
           <a href="https://tabuamare.api.br/docs" target="_blank" rel="noreferrer">Documentação</a>
-          <a href="https://tabuamare.api.br/playground" target="_blank" rel="noreferrer">Playground</a>
-          <a href="https://tabuamare.api.br/#planos" target="_blank" rel="noreferrer">Planos</a>
-        </nav>
-        <nav aria-label="Projeto">
-          <strong>Projeto</strong>
           <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub da API <span aria-hidden="true">↗</span></a>
           <a href="https://tabuamare.api.br/apoiar" target="_blank" rel="noreferrer">Apoiar</a>
-          <a href="https://tabuamare.api.br/privacidade" target="_blank" rel="noreferrer">Privacidade</a>
-          <a href="https://tabuamare.api.br/termos" target="_blank" rel="noreferrer">Termos de serviço</a>
         </nav>
       </div>
       <div class="site-footer__base container">
         <span>&copy; 2026 Tábua de Marés</span>
+        <nav class="site-footer__legal" aria-label="Legal">
+          <a href="https://tabuamare.api.br/privacidade" target="_blank" rel="noreferrer">Privacidade</a>
+          <a href="https://tabuamare.api.br/termos" target="_blank" rel="noreferrer">Termos</a>
+        </nav>
         <span>Feita no Brasil <img src="/assets/flag-br.png" alt="" width="20" height="14" /></span>
       </div>
     </footer>

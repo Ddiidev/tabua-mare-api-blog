@@ -8,7 +8,7 @@
 .post-hero{grid-template-columns:1fr;max-width:820px;padding-block:clamp(2.75rem,5vw,4.5rem);display:grid}
 .post-hero h1{color:var(--ocean-950);letter-spacing:-.045em;margin:0;font-family:Georgia,Spectral,serif;font-size:clamp(2.25rem,4.8vw,4rem);font-weight:700;line-height:1.05}
 .post-hero__lead{color:var(--muted);margin:1.2rem 0 0;font-size:clamp(1rem,1.6vw,1.18rem);line-height:1.7}
-.post-hero__meta{align-items:center;gap:1rem;margin-top:2rem;display:flex}
+.post-hero__meta{align-items:center;justify-content:space-between;gap:1rem;margin-top:2rem;display:flex;flex-wrap:wrap}
 .post-author{align-items:center;gap:.65rem;margin:0;display:flex}
 .post-author img{border-radius:50%;width:40px;height:40px}
 .post-author figcaption{gap:.1rem;display:grid}
@@ -44,6 +44,10 @@
 .post-body code{color:var(--ocean-800);background:var(--surface-muted);border:1px solid var(--line);border-radius:.25rem;padding:.1rem .35rem;font-family:Kode Mono,ui-monospace,monospace;font-size:.85em}
 .post-body pre{color:#cceef2;background:var(--ocean-950);border:1px solid var(--line);border-radius:.7rem;overflow-x:auto;margin:1.5rem 0;padding:1.15rem 1.3rem}
 .post-body pre code{color:inherit;background:0 0;border:0;border-radius:0;padding:0;font-size:.82rem;line-height:1.6}
+.post-body pre code[data-highlighted=true] .syntax-keyword{color:#7ddff2;font-weight:600}
+.post-body pre code[data-highlighted=true] .syntax-string{color:#f9d57a}
+.post-body pre code[data-highlighted=true] .syntax-comment{color:#86a8b4;font-style:italic}
+.post-body pre code[data-highlighted=true] .syntax-number{color:#f2a8bd}
 .post-body img{border:1px solid var(--line);border-radius:.7rem;width:100%;box-shadow:var(--shadow-float)}
 .post-body hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
 /* ===== BLOG HOME ===== */
@@ -69,11 +73,15 @@
 .post-card--soon strong{color:var(--ocean-950);font-size:1.02rem}
 .post-card--soon span{color:var(--muted);font-size:.8rem}
 .tide-track--divider{height:48px;border:0;border-block:0;border-top:0}
-.tide-track--divider .tide-boat{bottom:16px}
-.footer-wave{background:var(--ocean-950);height:26px;mask-image:linear-gradient(#000,#000),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='26' viewBox='0 0 168 26'%3E%3Cpath fill='%23000' d='M0 6C21 0 35 0 56 6s35 6 56 0 35-6 56 0v26H0Z'/%3E%3C/svg%3E");mask-composite:subtract;mask-repeat:repeat-x;mask-size:auto 100%}
+.tide-track--divider .tide-boat{bottom:16px;left:var(--boat-left,8px)}
 .site-footer--blog{margin-top:0;padding-top:2.6rem}
-.site-footer--blog .site-footer__grid{grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(120px,.8fr))}
+.site-footer--blog .site-footer__grid{grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(150px,.8fr))}
 .site-footer--blog .site-footer__brand>a+a,.site-footer--blog .site-footer__brand span{align-items:center;gap:.8rem;text-decoration:none;display:inline-flex}
+.site-footer--blog .site-footer__brand>a>img{width:56px;height:56px}
+.site-footer--blog .brand-badge{color:var(--sun-400);letter-spacing:.08em;border:1px solid #ffffff4d;border-radius:999px;padding:.12rem .38rem;font:600 .64rem/1 ui-monospace,monospace}
+.site-footer__legal{display:flex;align-items:center;gap:1rem}
+.site-footer__legal a{color:#ffffff9e;text-decoration:none}
+.site-footer__legal a:hover,.site-footer__legal a:focus-visible{color:var(--sun-400)}
 .footer-tagline{color:#ffffffad;max-width:300px;margin:.9rem 0 0;font-size:.82rem;line-height:1.6}
 .footer-made{color:#ffffff7a;margin:.5rem 0 0;font-size:.74rem}
 .footer-made a{color:var(--sun-400);font-weight:700}
@@ -100,6 +108,32 @@ main a.post-back:focus-visible{outline:2px solid var(--ocean-600);outline-offset
 .suggested-posts .section-heading{margin-bottom:1.5rem}
 .suggested-posts h2{font-size:clamp(1.7rem,3vw,2.5rem)}
 @media (width<=1023px){.home-hero.home-hero--editorial{grid-template-columns:1fr}.home-hero--editorial .post-card--featured{order:0;justify-self:start;max-width:100%}}
+
+/* Article sharing */
+.post-share{display:flex;align-items:center;gap:.45rem;margin-left:auto;position:relative}
+.post-share__button{width:44px;min-width:44px;height:44px;min-height:44px;display:grid;place-items:center;margin:0;padding:0;border:1px solid var(--ocean-600);border-radius:.7rem;background:var(--surface);color:var(--ocean-600);text-decoration:none;box-shadow:inset 0 0 0 1px #0891b214;transition:background .16s ease,border-color .16s ease,transform .16s ease}
+.post-share__button:hover,.post-share__button:focus-visible{border-color:var(--ocean-800);background:var(--surface-muted);color:inherit;transform:translateY(-2px)}
+.post-share__button:focus-visible{outline:2px solid var(--sun-400);outline-offset:3px}
+.post-share__button svg{width:21px;height:21px;fill:currentColor;stroke:none}
+main .post-share a.post-share__button--whatsapp{color:#128c4a}
+.post-share__button--whatsapp svg circle{fill:none;stroke:currentColor;stroke-width:1.8}
+main .post-share a.post-share__button--telegram{color:#168acd}
+.post-share__button--instagram{color:#c13584}
+.post-share__button--instagram svg{fill:none;stroke:currentColor;stroke-width:1.8}
+.post-share__button--instagram svg circle:last-child{fill:currentColor;stroke:none}
+main .post-share a.post-share__button--x{color:#111}
+.post-share__button--x svg{fill:none;stroke:currentColor;stroke-width:2}
+main .post-share a.post-share__button--bluesky{color:#087ceb}
+.post-share__status:empty{display:none}
+.post-share__status:not(:empty){position:absolute;z-index:2;top:calc(100% + .5rem);right:0;width:max-content;max-width:min(18rem,calc(100vw - 2rem));padding:.45rem .65rem;border:1px solid var(--line);border-radius:.55rem;background:var(--surface);color:var(--text);font-size:.72rem;box-shadow:var(--shadow-float)}
+@media (width<=520px){.post-share{width:100%;margin-left:0}.post-share__button{flex:1;max-width:52px}}
+
+.post-contribute{max-width:820px;margin-block:0 clamp(3rem,6vw,5rem);padding:1.1rem 1.2rem;border:1px solid var(--line);border-radius:.8rem;background:var(--surface-muted);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.post-contribute>div{display:grid;gap:.15rem}
+.post-contribute strong{color:var(--ocean-950);font-size:.95rem}
+.post-contribute span{color:var(--muted);font-size:.78rem}
+.post-contribute [role=button]{flex:none;margin:0;min-height:44px}
+@media (width<=640px){.post-contribute{align-items:stretch;flex-direction:column}.post-contribute [role=button]{width:100%}}
 
 /* Animações contínuas da maré e do barco */
 @keyframes tide-wave-back-move{from{background-position-x:0}to{background-position-x:-144px}}

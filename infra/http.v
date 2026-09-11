@@ -18,7 +18,7 @@ pub fn get_db_json() ?typ.ContentDbJson {
 
 	return typ.ContentDbJson{
 		content: resp.body
-		expire:  expire
+		expire: expire
 	}
 }
 

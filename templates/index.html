@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="/assets/favicon-192x192.png" />
 <link href="/assets/main.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Kode+Mono:wght@400;600&amp;family=Spectral:wght@600;700&amp;display=swap" rel="stylesheet" />
+    <script src="/assets/blog.js" defer></script>
   </head>
   <body>
     <header class="site-nav-shell">
@@ -124,13 +125,12 @@
       </section>
     </main>
 
-    <div class="footer-wave" aria-hidden="true"></div>
     <footer class="site-footer site-footer--blog">
       <div class="site-footer__grid container">
         <div class="site-footer__brand">
           <a href="/" aria-label="Tábua de Marés Blog — início">
-            <img src="/assets/favicon-192x192.png" alt="" width="48" height="48" />
-            <span><strong>Tábua de Marés</strong><small>Blog</small></span>
+            <img src="/assets/favicon-192x192.png" alt="" width="56" height="56" />
+            <span><strong>Tábua de Marés</strong><small class="brand-badge">Blog</small></span>
           </a>
           <p class="footer-tagline">Maré, código e litoral brasileiro — histórias de quem constrói a Tábua de Maré API.</p>
           <p class="footer-made">Feito com <a href="https://vlang.io" target="_blank" rel="noreferrer"><img src="/assets/v-logo.svg" alt="V" width="16" height="16" /></a> <img src="/assets/veasel.svg" alt="mascote do V" width="46" height="24" /> e dados abertos.</p>
@@ -141,23 +141,20 @@
           <a href="/#posts">Artigos recentes</a>
           <a href="https://github.com/Ddiidev/tabua-mare-api-blog" target="_blank" rel="noreferrer">Contribuir com um post ↗</a>
         </nav>
-        <nav aria-label="API">
-          <strong>API</strong>
+        <nav aria-label="API e projeto">
+          <strong>API e projeto</strong>
           <a href="https://tabuamare.api.br">Site da API</a>
           <a href="https://tabuamare.api.br/docs">Documentação</a>
-          <a href="https://tabuamare.api.br/playground">Playground</a>
-          <a href="https://tabuamare.api.br/#planos">Planos</a>
-        </nav>
-        <nav aria-label="Projeto">
-          <strong>Projeto</strong>
           <a href="https://github.com/Ddiidev/tabua_mare_api" target="_blank" rel="noreferrer">GitHub da API ↗</a>
           <a href="https://tabuamare.api.br/apoiar">Apoiar</a>
-          <a href="https://tabuamare.api.br/privacidade">Privacidade</a>
-          <a href="https://tabuamare.api.br/termos">Termos de serviço</a>
         </nav>
       </div>
       <div class="site-footer__base container">
         <span>&copy; 2026 Tábua de Marés</span>
+        <nav class="site-footer__legal" aria-label="Legal">
+          <a href="https://tabuamare.api.br/privacidade">Privacidade</a>
+          <a href="https://tabuamare.api.br/termos">Termos</a>
+        </nav>
         <span>Feita no Brasil <img src="/assets/flag-br.png" alt="" width="20" height="14" /></span>
       </div>
     </footer>

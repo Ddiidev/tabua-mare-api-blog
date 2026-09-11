@@ -132,8 +132,11 @@ pub fn (app &App) post(mut ctx Context, slug string) veb.Result {
 	lead := post.headline
 	date_pt := format_date(post.data)
 	main_image := infra.get_image_main_post(post)
-	json_image := main_image
-	json_author := if post.authors.len > 0 { post.authors.filter(it.typ.contains('creator')).map(it.name).join('", "') } else { 'Tábua de Maré' }
+	name_author := if post.authors.len > 0 {
+		post.authors.filter(it.typ.contains('creator')).map(it.name).join(", ")
+	} else {
+		'Tábua de Maré'
+	}
 
 	return $veb.html()
 }

@@ -9,6 +9,7 @@ tabua_mare_api_blog
 *.obj
 *.exp
 *.lib
+*.ilk
 
 # Ignore binary output folders
 bin/
@@ -27,6 +28,7 @@ TASK/
 # Web assets and local databases
 *.db
 *.js
+!assets/blog.js
 
 # Ignore installed modules through `v install --local`:
 modules/
