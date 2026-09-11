@@ -1,0 +1,9 @@
+.git
+.gitignore
+TASK
+workground
+*.exe
+*.exp
+*.lib
+*.obj
+*.tmp.*
