@@ -144,8 +144,9 @@
   syncCodeScrollFade();
   window.addEventListener('resize', syncCodeScrollFade, { passive: true });
 
-  const contentVignette = document.querySelector('.content-scroll-vignette');
-  if (contentVignette) {
+  const topVignette = document.querySelector('.content-scroll-vignette--top');
+  const bottomVignette = document.querySelector('.content-scroll-vignette--bottom');
+  if (topVignette && bottomVignette) {
     let vignetteFrame;
     const vignetteThreshold = 24;
 
@@ -153,8 +154,8 @@
       const scrollElement = document.scrollingElement || document.documentElement;
       const scrollTop = scrollElement.scrollTop;
       const maxScroll = Math.max(0, scrollElement.scrollHeight - window.innerHeight);
-      contentVignette.classList.toggle('is-top-hidden', scrollTop <= vignetteThreshold);
-      contentVignette.classList.toggle('is-bottom-hidden', maxScroll === 0 || scrollTop >= maxScroll - 1);
+      topVignette.classList.toggle('is-hidden', scrollTop <= vignetteThreshold);
+      bottomVignette.classList.toggle('is-hidden', maxScroll === 0 || scrollTop >= maxScroll - 1);
       vignetteFrame = undefined;
     };
 
