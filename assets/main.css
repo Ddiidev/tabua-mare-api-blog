@@ -181,6 +181,33 @@ main .post-share a.post-share__button--bluesky{color:#087ceb}
   }
 }
 
+/* Vinhetas fixas: indicam continuidade sem escurecer as bordas laterais. */
+.content-scroll-vignette{
+  pointer-events:none;
+  position:fixed;
+  z-index:9000;
+  inset:0;
+}
+.content-scroll-vignette::before,.content-scroll-vignette::after{
+  content:"";
+  pointer-events:none;
+  position:fixed;
+  right:0;
+  left:0;
+  height:clamp(2rem,5vh,3.5rem);
+  transition:opacity .18s ease-out;
+}
+.content-scroll-vignette::before{
+  top:4rem;
+  background:linear-gradient(to top,rgba(8,47,73,0) 0%,rgba(8,47,73,.12) 45%,rgba(8,47,73,.4) 100%);
+}
+.content-scroll-vignette::after{
+  bottom:0;
+  background:linear-gradient(to bottom,rgba(8,47,73,0) 0%,rgba(8,47,73,.12) 45%,rgba(8,47,73,.4) 100%);
+}
+.content-scroll-vignette.is-top-hidden::before,.content-scroll-vignette.is-bottom-hidden::after{opacity:0}
+@media (prefers-reduced-motion:reduce){.content-scroll-vignette::before,.content-scroll-vignette::after{transition:none}}
+
 /* Ritmo de leitura e alinhamento para a coluna estreita observada no preview móvel. */
 @media (width<=640px){
   html{scroll-padding-top:5rem}

@@ -144,6 +144,27 @@
   syncCodeScrollFade();
   window.addEventListener('resize', syncCodeScrollFade, { passive: true });
 
+  const contentVignette = document.querySelector('.content-scroll-vignette');
+  if (contentVignette) {
+    let vignetteFrame;
+    const vignetteThreshold = 24;
+
+    const syncContentVignette = () => {
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      contentVignette.classList.toggle('is-top-hidden', window.scrollY <= vignetteThreshold);
+      contentVignette.classList.toggle('is-bottom-hidden', maxScroll === 0 || window.scrollY >= maxScroll - 1);
+      vignetteFrame = undefined;
+    };
+
+    const scheduleContentVignette = () => {
+      if (!vignetteFrame) vignetteFrame = window.requestAnimationFrame(syncContentVignette);
+    };
+
+    syncContentVignette();
+    window.addEventListener('scroll', scheduleContentVignette, { passive: true });
+    window.addEventListener('resize', scheduleContentVignette, { passive: true });
+  }
+
   const boat = document.querySelector('.tide-track--divider .tide-boat');
   if (boat) {
     const track = boat.closest('.tide-track--divider');
