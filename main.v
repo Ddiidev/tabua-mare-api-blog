@@ -32,10 +32,10 @@ fn post_card(post entities.Post, base_path string) PostCard {
 	author := if post.authors.len > 0 { post.authors[0].name } else { 'Tábua de Maré' }
 	return PostCard{
 		headline: post.headline
-		url: '${base_path}/post/${post.slug}'
-		image: infra.get_image_main_post(post)
-		date_pt: format_date(post.data)
-		author: author
+		url:      '${base_path}/post/${post.slug}'
+		image:    infra.get_image_main_post(post)
+		date_pt:  format_date(post.data)
+		author:   author
 	}
 }
 
@@ -149,7 +149,9 @@ pub fn (app &App) post(mut ctx Context, slug string) veb.Result {
 	post := registers_posts.filter(it.slug == slug)[0] or { return ctx.not_found() }
 	suggested_posts := suggested_post_cards(registers_posts, slug, base_path)
 
-	content_post := infra.get_post(post) or { return ctx.server_error_with_status(.internal_server_error) }
+	content_post := infra.get_post(post) or {
+		return ctx.server_error_with_status(.internal_server_error)
+	}
 	content := veb.RawHtml(vmarkdown.render_html(content_post) or { '' })
 
 	title := '${post.headline} | Tábua de Maré'

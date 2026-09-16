@@ -2,14 +2,17 @@
     {
         "title": "Entenda o que é uma tábua de maré, como ler horários e alturas de maré alta e baixa e como consultar os dados de qualquer porto do litoral brasileiro.",
         "data": "2026-09-16T00:00:00Z",
-        "assets-path": "posts/16-09-2026-oque-e-tabua-de-mare-api/assets",
-        "content-path": "posts/16-09-2026-oque-e-tabua-de-mare-api/content.md",
+        "assets_path": "posts/16-09-2026-oque-e-tabua-de-mare-api/assets",
+        "content_path": "posts/16-09-2026-oque-e-tabua-de-mare-api/content.md",
         "slug": "oque-e-a-tabua-de-mare-api",
+        "path_post": "posts/16-09-2026-oque-e-tabua-de-mare-api",
         "headline": "Tábua de maré: o que é, como ler e onde consultar",
         "image": "posts/16-09-2026-oque-e-tabua-de-mare-api/assets/main.jpg",
         "authors": [
             {
-                "type": ["creator"],
+                "type": [
+                    "creator"
+                ],
                 "name": "André Luiz",
                 "email": "andreluiz.ddev@proton.me",
                 "created_at": "2026-09-16T00:00:00Z"
