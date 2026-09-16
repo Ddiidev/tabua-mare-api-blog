@@ -1,6 +1,6 @@
 Se você pesca, navega, surfa, trabalha com turismo ou simplesmente mora perto da praia, a tábua de maré responde perguntas que aparecem todo dia: a que horas a água enche, até onde dá para ir, quando é melhor sair e voltar. O que falta, quase sempre, é uma explicação simples e um jeito fácil de consultar esses números.
 
-A primeira parte explica o que é uma tábua de maré e como ler os dados dela usando um dia real como exemplo. Depois, apresento a Tábua de Marés API, um projeto brasileiro que reúne as tábuas do litoral inteiro e mantém a consulta aberta, sem cadastro. O projeto é mantido por uma pessoa, sem equipe e sem empresa atrás, com um objetivo só: fazer o dado público de maré chegar de fato a quem precisa dele.
+A primeira parte explica o que é uma tábua de maré e como ler os dados dela usando um dia real como exemplo. Depois, apresento a Tábua de Marés API, um projeto brasileiro que reúne as tábuas do litoral inteiro e mantém a consulta aberta, sem cadastro. O projeto é mantido por uma pessoa, sem equipe, com um objetivo só: fazer o dado público de maré chegar de fato a quem precisa dele.
 
 ## O que é uma tábua de maré
 
@@ -132,10 +132,10 @@ O código da API está aberto no GitHub, sob licença MIT. Junto com o código, 
 **[Acesse o repositório e baixe o código e o banco de dados](https://github.com/Ddiidev/tabua_mare_api)**
 
 <div class="inline-actions">
-<a href="https://pt.wikipedia.org/wiki/C%C3%B3digo_aberto" target="_blank" rel="noreferrer" role="button" class="outline">O que é código aberto? ↝</a>
+<a href="https://pt.wikipedia.org/wiki/C%C3%B3digo_aberto" target="_blank" rel="noreferrer" >O que é código aberto? ↝</a>
 </div>
 
-Isso aqui é feito por uma pessoa, do começo ao fim. Não existe equipe de plantão nem empresa mantendo o servidor. Quem escreve o código é quem responde a issue, atualiza o dado e cuida da máquina. O motivo é simples. Dado de maré é informação que muita gente precisa e quase ninguém consegue usar quando ela fica presa num PDF.
+Isso aqui é feito por uma pessoa, do começo ao fim. Existe uma empresa por trás do projeto, mas é empresa de uma pessoa só: sem equipe, sem plantão para dividir. Quem escreve o código é quem responde a issue, atualiza o dado e cuida da máquina. O motivo é simples. Dado de maré é informação que muita gente precisa e quase ninguém consegue usar quando ela fica presa num PDF.
 
 ## Dificuldades e bastidores
 
