@@ -49,6 +49,16 @@
 .post-body pre code[data-highlighted=true] .syntax-comment{color:#86a8b4;font-style:italic}
 .post-body pre code[data-highlighted=true] .syntax-number{color:#f2a8bd}
 .post-body img{border:1px solid var(--line);border-radius:.7rem;width:100%;box-shadow:var(--shadow-float)}
+.post-body table{border:1px solid var(--line);border-collapse:separate;border-spacing:0;border-radius:.7rem;width:100%;margin:1.6rem 0;font-size:.95rem;overflow:hidden}
+.post-body th,.post-body td{border-bottom:1px solid var(--line);padding:.7rem .9rem;text-align:left;vertical-align:top}
+.post-body th{background:var(--surface-muted);color:var(--ocean-950);font-weight:700}
+.post-body tr:last-child td{border-bottom:0}
+.post-body table img{display:inline-block;width:auto;height:1.1em;margin-right:.35rem;border:0;border-radius:0;box-shadow:none;vertical-align:-.18em}
+.post-body table code{white-space:nowrap}
+@media (width<=680px){
+  .post-body table{display:block;overflow-x:auto}
+  .post-body table img{height:1em}
+}
 .post-body hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
 /* ===== BLOG HOME ===== */
 .home-hero .post-card--featured{align-self:center;width:100%;max-width:520px}
