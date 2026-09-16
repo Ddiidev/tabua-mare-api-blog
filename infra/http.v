@@ -4,19 +4,45 @@ import typ
 import time
 import json2
 import net.http
+import os
 import entities
 
-pub fn get_db_json() ?typ.ContentDbJson {
-	content := if res := http.get('https://raw.githubusercontent.com/Ddiidev/tabua-mare-api-blog/refs/heads/main/db.json') {
-		if res.status_code != 200 {
+const raw_base = 'https://raw.githubusercontent.com/Ddiidev/tabua-mare-api-blog/refs/heads/main/'
+
+// limite total do fetch: sem isso, um TCP pendurado (ex: IPv6 sem rota no
+// container) trava o request indefinidamente, pois o read_timeout só cobre a
+// leitura da resposta
+const fetch_timeout = 10 * time.second
+
+fn fetch_url(url string) ?string {
+	ch := chan string{}
+	spawn fn [ch, url] () {
+		res := http.get(url) or {
+			ch <- ''
+			return
+		}
+		ch <- if res.status_code == 200 { res.body } else { '' }
+	}()
+	select {
+		body := <-ch {
+			if body.len == 0 {
+				return none
+			}
+			return body
+		}
+		fetch_timeout {
 			return none
 		}
-		res.body
-	} else {
-		'Conteúdo indisponível no momento ou em construção 👷🏻'
+	}
+	return none
+}
+
+pub fn get_db_json() ?typ.ContentDbJson {
+	content := fetch_url(raw_base + 'db.json') or {
+		return none
 	}
 
-	expire := time.utc().add_days(5)
+	expire := time.utc().add_days(3)
 
 	return typ.ContentDbJson{
 		content: content
@@ -31,14 +57,11 @@ pub fn addapt(content_db_json typ.ContentDbJson) ?[]entities.Post {
 }
 
 pub fn get_post(post entities.Post) ?string {
-	return if res := http.get('https://raw.githubusercontent.com/Ddiidev/tabua-mare-api-blog/refs/heads/main/posts/${post.path_post}/content.md') {
-		if res.status_code != 200 {
-			return none
-		}
-		res.body
-	} else {
-		'Conteúdo indisponível no momento ou em construção 👷🏻'
+	if body := fetch_url(raw_base + 'posts/${post.path_post}/content.md') {
+		return body
 	}
+	// fallback: conteúdo empacotado na imagem
+	return os.read_file(os.join_path('posts', post.path_post, 'content.md')) or { return none }
 }
 
 pub fn get_image_main_post(post entities.Post) string {
