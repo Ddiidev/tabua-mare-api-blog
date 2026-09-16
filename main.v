@@ -53,6 +53,31 @@ fn suggested_post_cards(posts []entities.Post, current_slug string, base_path st
 	return cards
 }
 
+// carrega os posts: cache fresco em memória, senão fetch no GitHub (com
+// timeout, fora do lock), senão o conteúdo empacotado na imagem
+fn (app &App) posts() []entities.Post {
+	lock app.content_json {
+		if app.content_json.content.len > 0 && app.content_json.expire > time.utc() {
+			return infra.addapt(app.content_json) or { [] }
+		}
+	}
+
+	if fresh := infra.get_db_json() {
+		if posts := infra.addapt(fresh) {
+			lock app.content_json {
+				app.content_json = fresh
+			}
+			return posts
+		}
+	}
+
+	disk := typ.ContentDbJson{
+		content: os.read_file('db.json') or { '' }
+		expire:  time.utc()
+	}
+	return infra.addapt(disk) or { [] }
+}
+
 fn normalize_base_path(raw_path string) string {
 	trimmed_path := raw_path.trim_space().trim_right('/')
 	if trimmed_path == '' {
@@ -101,16 +126,7 @@ pub fn (app &App) index() veb.Result {
 	title := 'Blog Tábua de Maré API'
 	base_path := app.base_path
 
-	mut registers_posts := []entities.Post{}
-
-	lock app.content_json {
-		if app.content_json.content.len == 0 || app.content_json.expire < time.utc() {
-			app.content_json = infra.get_db_json() or { typ.ContentDbJson{} }
-		}
-		content_json := app.content_json
-
-		registers_posts = infra.addapt(content_json) or { [] }
-	}
+	registers_posts := app.posts()
 
 	has_featured := registers_posts.len > 0
 	featured := if has_featured {
@@ -134,17 +150,7 @@ pub fn (app &App) health(mut ctx Context) veb.Result {
 @['/post/:slug'; get]
 pub fn (app &App) post(mut ctx Context, slug string) veb.Result {
 	base_path := app.base_path
-	mut registers_posts := []entities.Post{}
-
-	lock app.content_json {
-		if app.content_json.content.len == 0 || app.content_json.expire < time.utc() {
-			app.content_json = infra.get_db_json() or {
-				return ctx.server_error_with_status(.internal_server_error)
-			}
-		}
-		content_json := app.content_json
-		registers_posts = infra.addapt(content_json) or { [] }
-	}
+	registers_posts := app.posts()
 
 	post := registers_posts.filter(it.slug == slug)[0] or { return ctx.not_found() }
 	suggested_posts := suggested_post_cards(registers_posts, slug, base_path)
