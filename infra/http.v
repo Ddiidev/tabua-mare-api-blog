@@ -16,7 +16,7 @@ const fetch_timeout = 10 * time.second
 
 fn fetch_url(url string) ?string {
 	ch := chan string{}
-	spawn fn [ch, url] () {
+	go fn [ch, url] () {
 		res := http.get(url) or {
 			ch <- ''
 			return

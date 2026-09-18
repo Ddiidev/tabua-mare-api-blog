@@ -56,12 +56,13 @@ fn suggested_post_cards(posts []entities.Post, current_slug string, base_path st
 // carrega os posts: cache fresco em memória, senão fetch no GitHub (com
 // timeout, fora do lock), senão o conteúdo empacotado na imagem
 fn (app &App) posts() []entities.Post {
-	lock app.content_json {
-		if app.content_json.content.len > 0 && app.content_json.expire > time.utc() {
-			return infra.addapt(app.content_json) or { [] }
-		}
+	content_json := lock app.content_json {
+		app.content_json
 	}
 
+	if content_json.content.len > 0 && content_json.expire > time.utc() {
+		return infra.addapt(content_json) or { [] }
+	}
 	if fresh := infra.get_db_json() {
 		if posts := infra.addapt(fresh) {
 			lock app.content_json {
