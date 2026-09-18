@@ -12,20 +12,29 @@ const raw_base = 'https://raw.githubusercontent.com/Ddiidev/tabua-mare-api-blog/
 // limite total do fetch: sem isso, um TCP pendurado (ex: IPv6 sem rota no
 // container) trava o request indefinidamente, pois o read_timeout só cobre a
 // leitura da resposta
-const fetch_timeout = 10 * time.second
+const fetch_timeout = 1500
 
 fn fetch_url(url string) ?string {
 	t0 := time.now()
 	ch := chan string{}
+
 	go fn [ch, url] () {
 		gt0 := time.now()
-		res := http.get(url) or {
+		res := http.fetch(http.FetchConfig{
+			enable_http2: false
+			method:       .get
+			url:          url
+		}) or {
 			println('[timing][fetch_url] url=${url} http_get_err=${time.since(gt0)}')
 			ch <- ''
 			return
 		}
 		println('[timing][fetch_url] url=${url} http_get=${time.since(gt0)} status=${res.status_code} bytes=${res.body.len}')
-		ch <- if res.status_code == 200 { res.body } else { '' }
+		ch <- if res.status_code == 200 {
+			res.body
+		} else {
+			''
+		}
 	}()
 	select {
 		body := <-ch {
