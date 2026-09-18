@@ -159,8 +159,8 @@ Sobrar para uma pessoa a parte de servidor, deploy, limite de requisições e at
 
 ## Para fechar
 
-Se maré faz parte do seu dia, comece pelo que já está publicado: [site](https://tabuamare.api.br), [documentação](https://tabuamare.api.br/docs) e [playground](https://tabuamare.api.br/playground). Se o projeto te ajudar, a página de [apoio](https://tabuamare.api.br/apoiar) existe justamente para dividir o custo de manter a máquina no ar.
+Se maré faz parte do seu dia, comece pelo que já está publicado: [site](https://tabuamare.api.br), [documentação](https://tabuamare.api.br/docs) e [playground](https://tabuamare.api.br/playground). Se o projeto te ajudar, a página de [apoio](https://tabuamare.api.br/apoiar) existe justamente para manter o serviço no ar e gratuitamente para todos. Além de pode simplesmente contratar qualquer um dos planos pagos, para integrar ao seu sistema, aplicativo ou site.
 
-Encontrou um porto faltando, um horário estranho ou um nome errado? Abre uma issue no [GitHub](https://github.com/Ddiidev/tabua_mare_api). Ficou com dúvida sobre maré, manda nos comentários. Também publico vídeos no [YouTube](https://www.youtube.com/@mais.foco42).
+Encontrou um porto faltando, um horário estranho ou um nome errado? Abre uma issue no [GitHub](https://github.com/Ddiidev/tabua_mare_api). Ficou com dúvida sobre maré, manda nos comentários. Também publico vídeos no [YouTube](https://www.youtube.com/@code.artesanal).
 
 Obrigado por ler até aqui.
