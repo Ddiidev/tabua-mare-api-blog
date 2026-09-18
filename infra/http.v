@@ -15,23 +15,19 @@ const raw_base = 'https://raw.githubusercontent.com/Ddiidev/tabua-mare-api-blog/
 const fetch_timeout = 1500 * time.millisecond
 
 fn fetch_url(url string) ?string {
-	t0 := time.now()
 	// buffer 1: se o select estourar no timeout, a goroutine não fica
 	// presa para sempre no send (o resultado é só descartado)
 	ch := chan string{cap: 1}
 
 	go fn [ch, url] () {
-		gt0 := time.now()
 		res := http.fetch(http.FetchConfig{
 			enable_http2: false
 			method:       .get
 			url:          url
 		}) or {
-			println('[timing][fetch_url] url=${url} http_get_err=${time.since(gt0)}')
 			ch <- ''
 			return
 		}
-		println('[timing][fetch_url] url=${url} http_get=${time.since(gt0)} status=${res.status_code} bytes=${res.body.len}')
 		ch <- if res.status_code == 200 {
 			res.body
 		} else {
@@ -41,14 +37,11 @@ fn fetch_url(url string) ?string {
 	select {
 		body := <-ch {
 			if body.len == 0 {
-				println('[timing][fetch_url] url=${url} total=${time.since(t0)} empty')
 				return none
 			}
-			println('[timing][fetch_url] url=${url} total=${time.since(t0)}')
 			return body
 		}
 		fetch_timeout {
-			println('[timing][fetch_url] url=${url} total=${time.since(t0)} TIMEOUT')
 			return none
 		}
 	}
@@ -56,15 +49,12 @@ fn fetch_url(url string) ?string {
 }
 
 pub fn get_db_json() ?typ.ContentDbJson {
-	t0 := time.now()
 	content := fetch_url(raw_base + 'db.json') or {
-		println('[timing][get_db_json] fetch=${time.since(t0)} FAILED')
 		return none
 	}
 
 	expire := time.utc().add_days(3)
 
-	println('[timing][get_db_json] fetch=${time.since(t0)} bytes=${content.len}')
 	return typ.ContentDbJson{
 		content: content
 		expire:  expire
@@ -72,29 +62,17 @@ pub fn get_db_json() ?typ.ContentDbJson {
 }
 
 pub fn addapt(content_db_json typ.ContentDbJson) ?[]entities.Post {
-	t0 := time.now()
-	posts := json2.decode[[]entities.Post](content_db_json.content) or {
-		println('[timing][addapt] decode=${time.since(t0)} FAILED bytes=${content_db_json.content.len}')
-		return none
-	}
+	posts := json2.decode[[]entities.Post](content_db_json.content) or { return none }
 
-	println('[timing][addapt] decode=${time.since(t0)} posts=${posts.len}')
 	return posts
 }
 
 pub fn get_post(post entities.Post) ?string {
-	t0 := time.now()
 	if body := fetch_url(raw_base + 'posts/${post.path_post}/content.md') {
-		println('[timing][get_post] slug=${post.slug} fetch=${time.since(t0)} bytes=${body.len}')
 		return body
 	}
 	// fallback: conteúdo empacotado na imagem
-	if body := os.read_file(os.join_path('posts', post.path_post, 'content.md')) {
-		println('[timing][get_post] slug=${post.slug} disk_fallback=${time.since(t0)} bytes=${body.len}')
-		return body
-	}
-	println('[timing][get_post] slug=${post.slug} total=${time.since(t0)} FAILED')
-	return none
+	return os.read_file(os.join_path('posts', post.path_post, 'content.md')) or { return none }
 }
 
 pub fn get_image_main_post(post entities.Post) string {

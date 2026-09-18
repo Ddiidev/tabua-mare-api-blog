@@ -29,21 +29,17 @@ pub:
 }
 
 fn post_card(post entities.Post, base_path string) PostCard {
-	t0 := time.now()
 	author := if post.authors.len > 0 { post.authors[0].name } else { 'Tábua de Maré' }
-	card := PostCard{
+	return PostCard{
 		headline: post.headline
 		url:      '${base_path}/post/${post.slug}'
 		image:    infra.get_image_main_post(post)
 		date_pt:  format_date(post.data)
 		author:   author
 	}
-	println('[timing][post_card] slug=${post.slug} total=${time.since(t0)}')
-	return card
 }
 
 fn suggested_post_cards(posts []entities.Post, current_slug string, base_path string) []PostCard {
-	t0 := time.now()
 	mut cards := []PostCard{}
 	for post in posts {
 		if post.slug == current_slug {
@@ -54,29 +50,24 @@ fn suggested_post_cards(posts []entities.Post, current_slug string, base_path st
 			break
 		}
 	}
-	println('[timing][suggested_post_cards] current=${current_slug} cards=${cards.len} total=${time.since(t0)}')
 	return cards
 }
 
 // carrega os posts: cache fresco em memória, senão fetch no GitHub (com
 // timeout, fora do lock), senão o conteúdo empacotado na imagem
 fn (app &App) posts() []entities.Post {
-	t0 := time.now()
 	content_json := rlock app.content_json {
 		app.content_json
 	}
 
 	if content_json.content.len > 0 && content_json.expire > time.utc() {
-		posts := infra.addapt(content_json) or { [] }
-		println('[timing][posts] source=cache posts=${posts.len} total=${time.since(t0)}')
-		return posts
+		return infra.addapt(content_json) or { [] }
 	}
 	if fresh := infra.get_db_json() {
 		if posts := infra.addapt(fresh) {
 			lock app.content_json {
 				app.content_json = fresh
 			}
-			println('[timing][posts] source=github posts=${posts.len} total=${time.since(t0)}')
 			return posts
 		}
 	}
@@ -85,9 +76,7 @@ fn (app &App) posts() []entities.Post {
 		content: os.read_file('db.json') or { '' }
 		expire:  time.utc()
 	}
-	posts := infra.addapt(disk) or { [] }
-	println('[timing][posts] source=disk posts=${posts.len} total=${time.since(t0)}')
-	return posts
+	return infra.addapt(disk) or { [] }
 }
 
 fn normalize_base_path(raw_path string) string {
@@ -135,13 +124,10 @@ fn month_pt(month string) string {
 
 @['/']
 pub fn (app &App) index() veb.Result {
-	t0 := time.now()
 	title := 'Blog Tábua de Maré API'
 	base_path := app.base_path
 
-	t_posts := time.now()
 	registers_posts := app.posts()
-	println('[timing][index] app.posts=${time.since(t_posts)} posts=${registers_posts.len}')
 
 	has_featured := registers_posts.len > 0
 	featured := if has_featured {
@@ -149,14 +135,11 @@ pub fn (app &App) index() veb.Result {
 	} else {
 		PostCard{}
 	}
-	t_cards := time.now()
 	mut cards := []PostCard{}
 	for i := 0; i < registers_posts.len; i++ {
 		cards << post_card(registers_posts[i], base_path)
 	}
-	println('[timing][index] build_cards=${time.since(t_cards)} cards=${cards.len}')
 
-	println('[timing][index] TOTAL=${time.since(t0)}')
 	return $veb.html()
 }
 
@@ -167,30 +150,16 @@ pub fn (app &App) health(mut ctx Context) veb.Result {
 
 @['/post/:slug'; get]
 pub fn (app &App) post(mut ctx Context, slug string) veb.Result {
-	t0 := time.now()
 	base_path := app.base_path
-
-	t_posts := time.now()
 	registers_posts := app.posts()
-	println('[timing][post] slug=${slug} app.posts=${time.since(t_posts)} posts=${registers_posts.len}')
 
-	t_filter := time.now()
 	post := registers_posts.filter(it.slug == slug)[0] or { return ctx.not_found() }
-	println('[timing][post] slug=${slug} filter=${time.since(t_filter)}')
-
-	t_suggested := time.now()
 	suggested_posts := suggested_post_cards(registers_posts, slug, base_path)
-	println('[timing][post] slug=${slug} suggested=${time.since(t_suggested)} count=${suggested_posts.len}')
 
-	t_content := time.now()
 	content_post := infra.get_post(post) or {
 		return ctx.server_error_with_status(.internal_server_error)
 	}
-	println('[timing][post] slug=${slug} get_post=${time.since(t_content)} bytes=${content_post.len}')
-
-	t_render := time.now()
 	content := veb.RawHtml(vmarkdown.render_html(content_post) or { '' })
-	println('[timing][post] slug=${slug} render_html=${time.since(t_render)}')
 
 	title := '${post.headline} | Tábua de Maré'
 	description := post.title
@@ -205,7 +174,6 @@ pub fn (app &App) post(mut ctx Context, slug string) veb.Result {
 		'Tábua de Maré'
 	}
 
-	println('[timing][post] slug=${slug} TOTAL=${time.since(t0)}')
 	return $veb.html()
 }
 

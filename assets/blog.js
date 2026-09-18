@@ -120,7 +120,7 @@
           revealScrollFade(entry.target);
           observer.unobserve(entry.target);
         });
-      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
 
       scrollFadeElements.forEach((element) => {
         const isAlreadyVisible = element.getBoundingClientRect().top < window.innerHeight * 0.9;

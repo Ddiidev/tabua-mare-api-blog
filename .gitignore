@@ -32,6 +32,7 @@ TASK/
 
 # Ignore installed modules through `v install --local`:
 modules/
+.playwright-mcp/
 
 # Velvet cache
 .velvet/
