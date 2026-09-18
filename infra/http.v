@@ -11,12 +11,14 @@ const raw_base = 'https://raw.githubusercontent.com/Ddiidev/tabua-mare-api-blog/
 
 // limite total do fetch: sem isso, um TCP pendurado (ex: IPv6 sem rota no
 // container) trava o request indefinidamente, pois o read_timeout só cobre a
-// leitura da resposta
-const fetch_timeout = 1500
+// leitura da resposta. O timeout do select do V é em nanossegundos (Duration).
+const fetch_timeout = 1500 * time.millisecond
 
 fn fetch_url(url string) ?string {
 	t0 := time.now()
-	ch := chan string{}
+	// buffer 1: se o select estourar no timeout, a goroutine não fica
+	// presa para sempre no send (o resultado é só descartado)
+	ch := chan string{cap: 1}
 
 	go fn [ch, url] () {
 		gt0 := time.now()
