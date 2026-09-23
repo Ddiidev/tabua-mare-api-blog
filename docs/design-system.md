@@ -40,7 +40,7 @@ Espaçamentos-base: `--spacing-xs` `.25rem`, `--spacing-sm` `.5rem`, `--spacing-
 - Badge `Blog`: cápsula monoespaçada, borda translúcida e texto `--sun-400`; é o mesmo padrão usado no rodapé.
 - Botões e links: ciano para ações regulares; amarelo para ação prioritária. Controles de compartilhamento usam quadrados arredondados com borda colorida.
 - Cards e blocos de código: superfície clara, borda `--line` e raios moderados. Código mantém fundo oceano e tipografia monoespaçada.
-- Tabelas dentro do corpo do post: superfície clara, borda `--line`, raio `.7rem`, cabeçalho em `--surface-muted` e células com `padding .7rem .9rem`. Em telas até `680px` a tabela rola na horizontal em vez de espremer colunas.
+- Tabelas dentro do corpo do post: a moldura (borda `--line` e raio `.7rem`) fica no invólucro `.table-scroll`; o cabeçalho usa `--surface-muted` e as células têm `padding .7rem .9rem`. A tabela mantém `width:100%` e preenche a coluna de leitura com as colunas nas proporções naturais do conteúdo. Quando uma célula não cabe — código com `nowrap`, por exemplo — quem rola na horizontal é o invólucro, em qualquer largura de tela, nunca o documento.
 - Ícones dentro de tabela (linguagens, por exemplo) usam a regra `.post-body table img`: altura `1.1em`, sem borda, sem sombra e sem `width:100%`, que é o padrão das imagens de conteúdo.
 - Rodapé: oceano escuro, links organizados em grupos de conteúdo e o mesmo badge da navbar.
 
@@ -63,3 +63,4 @@ Espaçamentos-base: `--spacing-xs` `.25rem`, `--spacing-sm` `.5rem`, `--spacing-
 
 - 2026-09-11: documentadas as regras já implementadas de leitura editorial, compartilhamento, rolagem e vinheta responsiva.
 - 2026-09-16: adicionado estilo de tabela para o corpo do post (borda, cabeçalho, rolagem horizontal no mobile) e ícone inline dentro de células; versão dos assets atualizada para `?v=6d51903`.
+- 2026-09-23: a moldura da tabela passou para o invólucro `.table-scroll`, gerado por `wrap_tables` no `main.v`. O `display:block` do mobile encolhia as colunas e cortava o fundo do cabeçalho no meio da moldura; agora a tabela preenche a coluna de leitura e a rolagem fica no invólucro. Link "Editar este artigo" passou a usar `path_post`, para funcionar com pasta datada. Versão dos assets em `?v=ca2b530`.

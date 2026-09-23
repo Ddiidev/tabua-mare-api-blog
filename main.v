@@ -8,6 +8,10 @@ import infra
 import entities
 import guweigang.vmarkdown
 
+// origem publica do site; o blog vive em <origem>/blog, atras do Nginx
+const site_origin = 'https://tabuamare.api.br'
+const sitemap_ns = 'http://www.sitemaps.org/schemas/sitemap/0.9'
+
 pub struct Context {
 	veb.Context
 }
@@ -53,6 +57,19 @@ fn suggested_post_cards(posts []entities.Post, current_slug string, base_path st
 	return cards
 }
 
+// build_sitemap monta o XML que os buscadores leem em /blog/sitemap.xml.
+// As URLs são absolutas porque a borda remove o prefixo /blog antes de
+// chegar no Veb.
+fn build_sitemap(posts []entities.Post, base_path string) string {
+	mut xml := '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="${sitemap_ns}">\n'
+	xml += '<url><loc>${site_origin}${base_path}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n'
+	for post in posts {
+		lastmod := if post.data == '' { '' } else { '<lastmod>${post.data}</lastmod>' }
+		xml += '<url><loc>${site_origin}${base_path}/post/${post.slug}</loc>${lastmod}<changefreq>monthly</changefreq><priority>0.6</priority></url>\n'
+	}
+	return xml + '</urlset>\n'
+}
+
 // carrega os posts: cache fresco em memória, senão fetch no GitHub (com
 // timeout, fora do lock), senão o conteúdo empacotado na imagem
 fn (app &App) posts() []entities.Post {
@@ -77,6 +94,14 @@ fn (app &App) posts() []entities.Post {
 		expire:  time.utc()
 	}
 	return infra.addapt(disk) or { [] }
+}
+
+// o vmarkdown emite <table> cru, e uma tabela sozinha não consegue rolar na
+// horizontal sem perder a moldura: com display:block as colunas encolhem para
+// o tamanho do conteúdo e o cabeçalho fica com o fundo cortado no meio. Com um
+// invólucro próprio, a tabela mantém width:100% e a rolagem fica no contêiner.
+fn wrap_tables(html string) string {
+	return html.replace_each(['<table>', '<div class="table-scroll"><table>', '</table>', '</table></div>'])
 }
 
 fn normalize_base_path(raw_path string) string {
@@ -125,7 +150,9 @@ fn month_pt(month string) string {
 @['/']
 pub fn (app &App) index() veb.Result {
 	title := 'Blog Tábua de Maré API'
+	description := 'Artigos sobre maré, portos brasileiros, dados abertos e os bastidores de engenharia da Tábua de Maré API.'
 	base_path := app.base_path
+	canonical := '${site_origin}${base_path}'
 
 	registers_posts := app.posts()
 
@@ -159,11 +186,11 @@ pub fn (app &App) post(mut ctx Context, slug string) veb.Result {
 	content_post := infra.get_post(post) or {
 		return ctx.server_error_with_status(.internal_server_error)
 	}
-	content := veb.RawHtml(vmarkdown.render_html(content_post) or { '' })
+	content := veb.RawHtml(wrap_tables(vmarkdown.render_html(content_post) or { '' }))
 
 	title := '${post.headline} | Tábua de Maré'
 	description := post.title
-	canonical := 'https://tabuamare.api.br/blog/post/${post.slug}'
+	canonical := '${site_origin}/blog/post/${post.slug}'
 	eyebrow := 'Artigo'
 	lead := post.headline
 	date_pt := format_date(post.data)
@@ -175,6 +202,12 @@ pub fn (app &App) post(mut ctx Context, slug string) veb.Result {
 	}
 
 	return $veb.html()
+}
+
+@['/sitemap.xml'; get; head]
+pub fn (app &App) sitemap(mut ctx Context) veb.Result {
+	sitemap := build_sitemap(app.posts(), app.base_path)
+	return ctx.send_response_to_client('application/xml; charset=utf-8', sitemap)
 }
 
 fn main() {
