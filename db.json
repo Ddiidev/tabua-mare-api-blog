@@ -1,5 +1,25 @@
 [
     {
+        "title": "Como a Marinha do Brasil calcula a previsão de maré a partir das componentes harmônicas, por que a tábua é previsão e não medição e como consultar a tábua de qualquer porto na Tábua de Marés API.",
+        "data": "2026-09-23T00:00:00Z",
+        "assets_path": "posts/23-09-2026-como-a-marinha-calcula-a-mare/assets",
+        "content_path": "posts/23-09-2026-como-a-marinha-calcula-a-mare/content.md",
+        "slug": "como-a-marinha-calcula-a-mare",
+        "path_post": "23-09-2026-como-a-marinha-calcula-a-mare",
+        "headline": "Como a Marinha do Brasil calcula a previsão de maré",
+        "image": "posts/23-09-2026-como-a-marinha-calcula-a-mare/assets/main.jpg",
+        "authors": [
+            {
+                "type": [
+                    "creator"
+                ],
+                "name": "André Luiz",
+                "email": "andreluiz.ddev@proton.me",
+                "created_at": "2026-09-23T00:00:00Z"
+            }
+        ]
+    },
+    {
         "title": "Entenda o que é uma tábua de maré, como ler horários e alturas de maré alta e baixa e como consultar os dados de qualquer porto do litoral brasileiro.",
         "data": "2026-09-16T00:00:00Z",
         "assets_path": "posts/16-09-2026-oque-e-tabua-de-mare-api/assets",
