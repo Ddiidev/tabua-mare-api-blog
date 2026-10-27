@@ -6,6 +6,7 @@ import typ
 import time
 import infra
 import entities
+import json2
 import guweigang.vmarkdown
 
 // origem publica do site; o blog vive em <origem>/blog, atras do Nginx
@@ -30,6 +31,51 @@ pub:
 	image    string
 	date_pt  string
 	author   string
+}
+
+struct BlogPostingAuthor {
+	kind string @[json: '@type']
+	name string
+}
+
+struct BlogPostingSchema {
+	context             string @[json: '@context']
+	kind                string @[json: '@type']
+	headline            string
+	description         string
+	image               string
+	date_published      string @[json: 'datePublished']
+	date_modified       string @[json: 'dateModified']
+	main_entity_of_page string @[json: 'mainEntityOfPage']
+	author              []BlogPostingAuthor
+}
+
+fn build_blog_posting_schema(post entities.Post, canonical string, image string) string {
+	mut authors := []BlogPostingAuthor{}
+	for author in post.authors {
+		name := author.name.trim_space()
+		if name != '' {
+			authors << BlogPostingAuthor{ kind: 'Person', name: name }
+		}
+	}
+	if authors.len == 0 {
+		authors << BlogPostingAuthor{ kind: 'Organization', name: 'Tábua de Maré' }
+	}
+	schema := BlogPostingSchema{
+		context:             'https://schema.org'
+		kind:                'BlogPosting'
+		headline:            post.headline
+		description:         post.title
+		image:               image
+		date_published:      post.data
+		date_modified:       post.data
+		main_entity_of_page: canonical
+		author:              authors
+	}
+	return json2.encode(schema)
+		.replace('<', '\\u003c')
+		.replace('>', '\\u003e')
+		.replace('&', '\\u0026')
 }
 
 fn post_card(post entities.Post, base_path string) PostCard {
@@ -101,7 +147,8 @@ fn (app &App) posts() []entities.Post {
 // o tamanho do conteúdo e o cabeçalho fica com o fundo cortado no meio. Com um
 // invólucro próprio, a tabela mantém width:100% e a rolagem fica no contêiner.
 fn wrap_tables(html string) string {
-	return html.replace_each(['<table>', '<div class="table-scroll"><table>', '</table>', '</table></div>'])
+	return html.replace_each(['<table>', '<div class="table-scroll"><table>', '</table>',
+		'</table></div>'])
 }
 
 fn normalize_base_path(raw_path string) string {
@@ -195,11 +242,7 @@ pub fn (app &App) post(mut ctx Context, slug string) veb.Result {
 	lead := post.headline
 	date_pt := format_date(post.data)
 	main_image := infra.get_image_main_post(post)
-	name_author := if post.authors.len > 0 {
-		post.authors.filter(it.typ.contains('creator')).map(it.name).join(', ')
-	} else {
-		'Tábua de Maré'
-	}
+	structured_data := veb.RawHtml(build_blog_posting_schema(post, canonical, main_image))
 
 	return $veb.html()
 }

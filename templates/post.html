@@ -10,19 +10,7 @@
 <link href="@{base_path}/assets/main.css?v=ca2b530" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Kode+Mono:wght@400;600&amp;family=Spectral:wght@600;700&amp;display=swap" rel="stylesheet" />
     <script src="@{base_path}/assets/blog.js?v=55db393" defer></script>
-    <script type="application/ld+json">
-{
-  "@@context": "https://schema.org",
-  "@@type": "BlogPosting",
-  "headline": "@{post.headline}",
-  "description": "@{post.title}",
-  "image": "@main_image",
-  "datePublished": "@{post.data}",
-  "dateModified": "@{post.data}",
-  "mainEntityOfPage": "@{canonical}",
-  "author": ["@name_author"]
-}
-    </script>
+    <script type="application/ld+json">@structured_data</script>
   </head>
   <body>
     <header class="site-nav-shell">
