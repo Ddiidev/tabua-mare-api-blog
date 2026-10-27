@@ -1,6 +1,7 @@
 module main
 
 import entities
+import json2
 
 fn test_normalize_base_path() {
 	assert normalize_base_path('') == ''
@@ -71,4 +72,43 @@ fn test_build_sitemap_omits_lastmod_when_post_has_no_date() {
 
 	assert xml.contains('<loc>https://tabuamare.api.br/blog/post/sem-data</loc>')
 	assert !xml.contains('<lastmod>')
+}
+
+fn test_build_blog_posting_schema_encodes_content_and_authors() {
+	post := entities.Post{
+		headline: 'Título "com" barra \\ e </script>\nsegunda linha'
+		title:    'Descrição do artigo'
+		data:     '2026-10-20T00:00:00Z'
+		authors:  [
+			entities.Author{ name: 'André Luiz', email: 'privado@example.com' }
+			entities.Author{ name: 'Outra autora' },
+		]
+	}
+	encoded := build_blog_posting_schema(post, 'https://tabuamare.api.br/blog/post/teste', 'https://example.com/image.jpg')
+	assert !encoded.contains('</script>')
+	assert encoded.contains('\\u003c/script\\u003e')
+	decoded := json2.decode[json2.Any](encoded) or { panic(err) }
+	root := decoded.as_map()
+	headline := root['headline'] or { panic('missing headline') }
+	assert headline.str() == post.headline
+	assert !encoded.contains('privado@example.com')
+	authors_value := root['author'] or { panic('missing author') }
+	authors := authors_value.as_array()
+	assert authors.len == 2
+	first_type := authors[0].as_map()['@type'] or { panic('missing first author type') }
+	second_name := authors[1].as_map()['name'] or { panic('missing second author name') }
+	assert first_type.str() == 'Person'
+	assert second_name.str() == 'Outra autora'
+}
+
+fn test_build_blog_posting_schema_uses_organization_fallback() {
+	post := entities.Post{ headline: 'Sem autor', title: 'Descrição' }
+	encoded := build_blog_posting_schema(post, 'https://tabuamare.api.br/blog/post/sem-autor', '')
+	decoded := json2.decode[json2.Any](encoded) or { panic(err) }
+	author_value := decoded.as_map()['author'] or { panic('missing author') }
+	author := author_value.as_array()[0].as_map()
+	author_type := author['@type'] or { panic('missing author type') }
+	author_name := author['name'] or { panic('missing author name') }
+	assert author_type.str() == 'Organization'
+	assert author_name.str() == 'Tábua de Maré'
 }
