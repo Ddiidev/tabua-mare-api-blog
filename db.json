@@ -1,5 +1,25 @@
 [
     {
+        "title": "Entenda quem mede a maré nos portos, como as observações viram previsões e quais períodos de coleta, envio e publicação estão documentados.",
+        "data": "2026-11-17T00:00:00Z",
+        "assets_path": "posts/17-11-2026-entrega-dados-mare-portos/assets",
+        "content_path": "posts/17-11-2026-entrega-dados-mare-portos/content.md",
+        "slug": "17-11-2026-entrega-dados-mare-portos",
+        "path_post": "17-11-2026-entrega-dados-mare-portos",
+        "headline": "Como os dados de maré dos portos chegam à tábua?",
+        "image": "posts/17-11-2026-entrega-dados-mare-portos/assets/main.jpg",
+        "authors": [
+            {
+                "type": [
+                    "creator"
+                ],
+                "name": "André Luiz",
+                "email": "andreluiz.ddev@proton.me",
+                "created_at": "2026-11-17T00:00:00Z"
+            }
+        ]
+    },
+    {
         "title": "Veja como usar horários e alturas previstos para organizar a saída e a volta da pesca, com um exemplo real do Porto do Mucuripe.",
         "data": "2026-10-20T00:00:00Z",
         "assets_path": "posts/20-10-2026-pesca-e-mare/assets",
