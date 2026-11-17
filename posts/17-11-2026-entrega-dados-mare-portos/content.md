@@ -26,6 +26,6 @@ Na API, os dados podem ser consultados por porto, mês e dia. Exemplo para os di
 curl -g -s "https://tabuamare.api.br/api/v2/tabua-mare/pb01/1/[1,2,3]"
 ```
 
-A consulta sem cadastro é gratuita. No [playground](https://tabuamare.api.br/playground), você testa a chamada e vê o resultado.
+A API pode ser usada gratuitamente, sem cadastro. Consulte a [documentação](https://tabuamare.api.br/docs) ou teste a chamada e veja o resultado no [playground](https://tabuamare.api.br/playground).
 
 *Fontes: [Tábuas das Marés do CHM](https://www.marinha.mil.br/chm/dados-do-segnav-publicacoes/tabuas-das-mares), [Informações sobre Marés](https://www.marinha.mil.br/chm/pagina-basica/informacoes-sobre-mares), [Dúvidas Frequentes do BNDO](https://www.marinha.mil.br/chm/bndo/duvidas-frequentes), [Envio de dados e metadados ao BNDO](https://www.marinha.mil.br/chm/bndo/envio) e [Estações Maregráficas na IDEM-DHN](https://idem.marinha.mil.br/geonetwork/geonetwork/search?keyword=maregrafia).*
